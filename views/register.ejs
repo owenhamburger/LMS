@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+
+    <% if(messages.usernameConflict) { %>
+        <li><%= messages.usernameConflict %></li>
+        <% } %>
+
+    <% if(messages.emailConflict) { %>
+        <li><%= messages.emailConflict %></li>
+        <% } %>
+
+    <ul>
+        <% if(typeof messages.validationErrors != 'undefined') {%>
+            <% for(let i = 0; i < messages.validationErrors.length; i++) { %>
+                <li><%=messages.validationErrors[i]%></li>
+            <% } %> <% } %>
+    </ul>
+
+    <form action="/register" method="POST">
+        <div>
+            <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+        </div>
+
+        <div>
+            <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+        </div>
+
+        <div>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+        </div>
+
+        <div>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+        </div>
+        
+        <div>
+            <input type="password" name="password" id="password" placeholder="Password">
+        </div>
+
+        <div>
+            <input type="password" name="passwordConfirmation" id="passwordConfirmation" placeholder="Confirm Password">
+        </div>
+
+        <div>
+            <input type="submit" value="Register">
+        </div>
+
+        <div>
+            <a href="/login">Already registered? Login here</a>
+        </div>
+    </form>
+</body>
+</html>

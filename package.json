@@ -1,0 +1,44 @@
+{
+  "name": "lms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "init-db": "node ./Database/init-db.js",
+    "dev": "npm run init-db && nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FareedFarag/Java_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FareedFarag/Java_Project/issues"
+  },
+  "homepage": "https://github.com/FareedFarag/Java_Project#readme",
+  "dependencies": {
+    "argon2": "^0.28.5",
+    "bcrypt": "^5.0.1",
+    "better-sqlite3": "^7.5.0",
+    "connect-flash": "^0.1.1",
+    "connect-redis": "^6.1.1",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.2",
+    "joi": "^17.6.0",
+    "method-override": "^3.0.0",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
+    "pg": "^8.7.3",
+    "redis": "^3.1.2",
+    "redis-cli": "^2.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
