@@ -58,7 +58,7 @@ const userController = require("./Controllers/userController.js");
  /*************************************
  * Require Validators
  *************************************/
-  const userValidator = require("./Validators/userValidator");
+const userValidator = require("./Validators/userValidator");
 
 /*************************************
  * Create Endpoints

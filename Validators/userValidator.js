@@ -48,7 +48,15 @@ const createUserSchema = joi.object({
         .equal(joi.ref('password'))
         .required()
         .label('Confirm password')
-        .messages({ 'any.only': '{{#label}} does not match' })
+        .messages({ 'any.only': '{{#label}} does not match' }),
+
+    course_OOP: joi.any(),
+
+    course_Algorithms: joi.any(),
+
+    course_Structured: joi.any(),
+
+    course_Database: joi.any()
 });
 
 function validateUserCreationBody(req, res, next) {

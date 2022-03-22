@@ -4,7 +4,7 @@ const db = require("./db");
 const crypto = require("crypto")
 const argon2 = require("argon2");
 
-async function createUser(email, username, firstName, lastName, password){
+async function createUser(email, username, firstName, lastName, password, course_OOP, course_Algorithms, course_Structured, course_Database){
     let created;
     const userID = crypto.randomUUID();
     const PasswordHash = await argon2.hash(password);
@@ -22,6 +22,39 @@ async function createUser(email, username, firstName, lastName, password){
             "firstName": firstName, 
             "lastName": lastName,
             "passwordHash": PasswordHash
+        });
+        created = true;
+    } catch(err) {
+        console.error(err);
+        created = false;
+    }
+
+    const classes_sql = `INSERT INTO User_Courses values (@userID, @CRN, @courseName)`;
+
+    const classes_stmt = db.prepare(classes_sql);
+
+    const CRN = 50535;
+
+    try {
+        classes_stmt.run({
+            "userID": userID, 
+            "CRN": CRN,
+            "courseName": course_OOP
+        });
+        classes_stmt.run({
+            "userID": userID, 
+            "CRN": CRN,
+            "courseName": course_Algorithms
+        });
+        classes_stmt.run({
+            "userID": userID, 
+            "CRN": CRN,
+            "courseName": course_Structured
+        });
+        classes_stmt.run({
+            "userID": userID, 
+            "CRN": CRN,
+            "courseName": course_Database
         });
         created = true;
     } catch(err) {

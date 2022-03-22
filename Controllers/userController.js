@@ -9,9 +9,36 @@ const argon2 = require("argon2");
 
 // Create new user
 async function createNewUser(req, res)  {
-    const {email, username, firstName, lastName, password} = req.body;
+    //See which boxes were checked
+    //This will have one of two values, 'undefined' if it wasn't checked, or 'on' if it is checked
+    console.log(req.body);
+    // let checkedValueOOP = req.body['course_OOP'];
+    // let checkedValueAlg = req.body['course_Algorithms'];
+    // let checkedValueStructured = req.body['course_Structured'];
+    // let checkedValueDatabase = req.body['course_Database'];
 
-    const created = await userModel.createUser(email, username, firstName, lastName, password);
+    // let output = 'The ';
+    // if(checkedValueOOP) { // Runs if the box is not undefined
+    //     output += 'OOP box was checked';
+    // }
+    // if (checkedValueAlg){
+    //     output += 'Algorithms box was checked';
+    // }
+    // if (checkedValueStructured){
+    //     output += 'Structured box was checked';
+    // }
+    // if (checkedValueDatabase){
+    //     output += 'Database box was checked';
+    // }
+
+    // console.log('Test', output);
+
+    const {email, username, firstName, lastName, password, course_OOP, course_Algorithms, course_Structured, course_Database} = req.body;
+
+    //Added four classes to the createdUser call
+    const created = await userModel.createUser(email, username, firstName, lastName, password, course_OOP, course_Algorithms, course_Structured, course_Database);
+
+
         
     // account was succesfully created
     if (created) {
