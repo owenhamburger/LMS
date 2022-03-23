@@ -16,28 +16,30 @@ const validateOpts = {
  * Validate User Creation Body
  *************************************/
 
-const createUserSchema = joi.object({
-  username: joi.string().min(6).token().lowercase().required(),
+const createUserSchema = joi
+  .object({
+    username: joi.string().min(6).token().lowercase().required(),
 
-  email: joi.string().email({
-    minDomainSegments: 2,
-    maxDomainSegments: 3,
-    tlds: { allow: ["edu"] },
-  }),
+    email: joi.string().email({
+      minDomainSegments: 2,
+      maxDomainSegments: 3,
+      tlds: { allow: ["edu"] },
+    }),
 
-  firstName: joi.string().min(1).token().required(),
+    firstName: joi.string().min(1).token().required(),
 
-  lastName: joi.string().min(1).token().required(),
+    lastName: joi.string().min(1).token().required(),
 
-  password: joi.string().min(8).required(),
+    password: joi.string().min(8).required(),
 
-  passwordConfirmation: joi
-    .any()
-    .equal(joi.ref("password"))
-    .required()
-    .label("Confirm password")
-    .messages({ "any.only": "{{#label}} does not match" }),
-});
+    passwordConfirmation: joi
+      .any()
+      .equal(joi.ref("password"))
+      .required()
+      .label("Confirm password")
+      .messages({ "any.only": "{{#label}} does not match" }),
+  })
+  .unknown();
 
 function validateUserCreationBody(req, res, next) {
   const { value, error } = createUserSchema.validate(req.body, validateOpts);
@@ -62,8 +64,12 @@ function validateUserCreationBody(req, res, next) {
     return res.redirect("/register");
   }
 
+  console.log("Body Before overwrite: ", req.body);
+
   // overwrite body with valid data
   req.body = value;
+
+  console.log("Body after overwrite: ", req.body);
 
   // pass control to next function
   next();

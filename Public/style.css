@@ -10,7 +10,7 @@ body {
     height: 2000px;*/
   background-size: cover;
   background-color: #ffffff;
-  color: #ffffff;
+  /* color: #ffffff; */
   font-size: 15px;
   font-family: "Open Sans", sans-serif;
 }
@@ -491,4 +491,40 @@ select {
 .courseTitle {
   width: 1220px;
   height: 700px;
+}
+
+.add_class_btn_1 {
+  height: 30px;
+  line-height: 25px;
+  width: 30px;
+  font-size: 2em;
+  border-radius: 50%;
+  background-color: #0d6efd;
+  color: #f9fafe;
+  text-align: center;
+  cursor: pointer;
+}
+
+.add_class_btn {
+  --t: 2px; /* Thickness */
+  --l: 40px; /* size of the symbol */
+  --s: 10px; /* space around the symbol */
+  --c1: #fff; /* Plus color*/
+  --c2: #0d6efd; /* background color*/
+
+  display: inline-block;
+  width: var(--l);
+  height: var(--l);
+  padding: var(--s);
+  box-sizing: border-box; /*Remove this if you don't want space to be included in the size*/
+
+  background: linear-gradient(var(--c1) 0 0) content-box,
+    linear-gradient(var(--c1) 0 0) content-box, var(--c2);
+  background-position: center;
+  background-size: 100% var(--t), var(--t) 100%;
+  background-repeat: no-repeat;
+}
+
+.radius_1 {
+  border-radius: 50%;
 }

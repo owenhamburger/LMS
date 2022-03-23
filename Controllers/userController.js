@@ -16,7 +16,8 @@ async function createNewUser(req, res) {
     username,
     firstName,
     lastName,
-    password
+    password,
+    req.body
   );
 
   // account was succesfully created

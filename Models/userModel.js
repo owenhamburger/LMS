@@ -3,16 +3,25 @@
 const db = require("./db");
 const crypto = require("crypto");
 const argon2 = require("argon2");
+const { func } = require("joi");
 
-async function createUser(email, username, firstName, lastName, password) {
+async function createUser(
+  email,
+  username,
+  firstName,
+  lastName,
+  password,
+  reqBody
+) {
   let created;
   const userID = crypto.randomUUID();
   const PasswordHash = await argon2.hash(password);
-  console.log(PasswordHash);
 
   const sql = `INSERT INTO Users values (@userID, @email, @username, @firstName, @lastName, @passwordHash, 0)`;
+  const classesSql = `INSERT INTO User_Courses values (@userID, @CRN, @courseName)`;
 
   const stmt = db.prepare(sql);
+  const classesStmt = db.prepare(classesSql);
 
   try {
     stmt.run({
@@ -23,6 +32,18 @@ async function createUser(email, username, firstName, lastName, password) {
       lastName: lastName,
       passwordHash: PasswordHash,
     });
+
+    for (const key in reqBody) {
+      if (key.includes("class")) {
+        console.log("key:", key, reqBody[key]);
+        const courseName = getCourseByCRN(reqBody[key]);
+        classesStmt.run({
+          userID: userID,
+          CRN: reqBody[key],
+          courseName: courseName.courseName,
+        });
+      }
+    }
     created = true;
   } catch (err) {
     console.error(err);
@@ -50,20 +71,39 @@ function getUserByID(id) {
   return userRecord; // may be undefined
 }
 
+function getallCourses() {
+  const sql = `SELECT * FROM Courses`;
+
+  const stmt = db.prepare(sql);
+  const allCourses = stmt.all();
+
+  return allCourses;
+}
+
 function getUserCourses(id) {
   const sql = `SELECT courseName FROM User_Courses WHERE userID = @id`;
 
   const stmt = db.prepare(sql);
   const userCourses = stmt.all({ id });
 
-  //   console.log("MODEL", userCourses);
+  console.log("MODEL", userCourses);
 
   return userCourses;
+}
+
+function getCourseByCRN(crn) {
+  const sql = `SELECT courseName FROM Courses WHERE CRN = @crn`;
+
+  const stmt = db.prepare(sql);
+  const courseName = stmt.get({ crn: crn });
+
+  return courseName;
 }
 
 module.exports = {
   createUser,
   getUserByUsername,
   getUserByID,
+  getallCourses,
   getUserCourses,
 };

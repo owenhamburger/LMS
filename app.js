@@ -46,7 +46,7 @@ app.use(methodOverride("_method"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// // Make Public folder accessible without defining explicit endpoints
+// Make Public folder accessible without defining explicit endpoints
 app.use(
   "/public",
   express.static(path.join(__dirname, "Public"), {
@@ -66,14 +66,19 @@ const userController = require("./Controllers/userController.js");
  * Require Validators
  *************************************/
 const userValidator = require("./Validators/userValidator");
+const userModel = require("./Models/userModel");
 
 /*************************************
  * Create Endpoints
  *************************************/
 
 app.get("/", userController.checkAuthenticated, (req, res) => {
-  res.redirect("./public/index");
-  // res.render("dashboard");
+  // res.redirect("./public/index");
+  res.render("dashboard");
+});
+
+app.get("/browserJS/browserJS.js", (req, res) => {
+  res.sendFile("C:/Users/Fadya/Desktop/LMS_Project/browserJS/browserJS.js");
 });
 
 app.get(
@@ -87,7 +92,7 @@ app.get(
 // });
 
 app.get("/register", userController.checkNotAuthenticated, (req, res) => {
-  res.render("register.ejs");
+  res.render("register.ejs", { allCourses: userModel.getallCourses() });
 });
 
 app.post(
