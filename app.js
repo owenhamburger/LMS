@@ -77,9 +77,9 @@ app.get("/", userController.checkAuthenticated, (req, res) => {
   res.render("dashboard");
 });
 
-app.get("/browserJS/browserJS.js", (req, res) => {
-  res.sendFile("C:/Users/Fadya/Desktop/LMS_Project/browserJS/browserJS.js");
-});
+// app.get("/browserJS/browserJS.js", (req, res) => {
+//   res.sendFile("C:/Users/Fadya/Desktop/LMS_Project/browserJS/browserJS.js");
+// });
 
 app.get(
   "/courses",

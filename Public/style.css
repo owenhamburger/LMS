@@ -438,11 +438,18 @@ select {
 /* course list */
 
 .courseList {
-  width: 300px;
-  height: 200px;
-  background-color: #ffffff;
-  border: 5px solid #2f7996;
-  margin: 25px;
+  /* background-color: #ffffff; */
+  /* border: 5px solid #2f7996; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex: 1;
+}
+
+.courseList > div {
+  /* flex: 30%; */
+  margin: 10px;
+  flex-basis: 100%;
 }
 
 .courseLogo {

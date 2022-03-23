@@ -62,7 +62,7 @@ function viewUserCourses(req, res) {
   //   console.log(userCourses);
 
   //   req.flash("userCourses", userCourses);
-  res.render("courses", { userCourses: userCourses });
+  res.render("courses_1", { userCourses: userCourses });
 }
 
 module.exports = {
