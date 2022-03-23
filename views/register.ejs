@@ -1,76 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">*/%>
-    <title>Register</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./Public/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <title>Register</title>
+  <script src="./Public/browserJS.js" defer></script>
 </head>
-<body>
-    <h1>Register</h1>
 
-    <% if(messages.usernameConflict) { %>
-        <li><%= messages.usernameConflict %></li>
-        <% } %>
+<body class="home">
+  <div id="wrap">
+    <header class="header">
+      <div class="top">
+        <div class="topL">
+          <p>LMS</p>
+        </div>
+        <div class="topR"></div>
+      </div>
+    </header>
 
-    <% if(messages.emailConflict) { %>
-        <li><%= messages.emailConflict %></li>
-        <% } %>
-
-    <ul>
-        <% if(typeof messages.validationErrors != 'undefined') {%>
-            <% for(let i = 0; i < messages.validationErrors.length; i++) { %>
-                <li><%=messages.validationErrors[i]%></li>
-            <% } %> <% } %>
-    </ul>
-
-    <form action="/register" method="POST">
-        <div>
-            <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
-        </div>
-
-        <div>
-            <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
-        </div>
-
-        <div>
-            <input type="text" id="username" name="username" placeholder="Username" required>
-        </div>
-
-        <div>
-            <input type="email" id="email" name="email" placeholder="Email" required>
-        </div>
-        
-        <div>
-            <input type="password" name="password" id="password" placeholder="Password">
-        </div>
-
-        <div>
-            <input type="password" name="passwordConfirmation" id="passwordConfirmation" placeholder="Confirm Password">
-        </div>
-
-        <h2>Select each class you would like to register for:</h2>
-        <div>
-            <input type="checkbox" name="course_OOP" id="course_OOP" value="OOP" checked> <label for="course_OOP">Object Orientated Programming</label>
-        </div>
-        <div>
-            <input type="checkbox" name="course_Algorithms" id="course_Algorithms" value="Algorithms" checked> <label for="course_Algorithms">Algorithms and Advanced Data Structures</label>
-        </div>
-        <div>
-            <input type="checkbox" name="course_Structured" id="course_Structured" value="Structured" checked> <label for="course_Structured">Structured Programming</label>
-        </div>
-        <div>
-            <input type="checkbox" name="course_Database" id="course_Database" value="Database" checked> <label for="course_Database">Database Systems</label>
-        </div>
-
-        <div>
-            <input type="submit" value="Register">
-        </div>
-
-        <div>
+    <main class="main">
+      <section class="middleContainer">
+        <div class="sideBar"></div>
+        <section class="middleR">
+          <section class="title">
+            <div class="titleContainer">
+              <h2>Register</h2>
+            </div>
+          </section>
+          <div>
             <a href="/login">Already registered? Login here</a>
-        </div>
-    </form>
+          </div>
+
+
+          <section class="mainContainer">
+            <div class="userEntryRegister">
+
+              <div class="userEntryBoxRegister">
+                <% if(messages.usernameConflict) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%= messages.usernameConflict %>
+                </div>
+                <% } %>
+
+                <% if(messages.emailConflict) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%= messages.emailConflict %>
+                </div>
+                <% } %>
+
+                <% if(typeof messages.validationErrors != 'undefined') {%>
+                <% for(let i = 0; i < messages.validationErrors.length; i++) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%=messages.validationErrors[i]%>
+                </div>
+                <% } %> <% } %>
+                <form action="/register" method="POST">
+                  <div class="mb-3">
+                    <label for="formGroupExampleInput" class="form-label">First Name</label>
+                    <input type="text" class="form-control" name="firstName" id="formGroupExampleInput">
+                  </div>
+                  <div class="mb-3">
+                    <label for="formGroupExampleInput2" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" name="lastName" id="formGroupExampleInput2">
+                  </div>
+                  <div class="mb-3">
+                    <label for="formGroupExampleInput" class="form-label">Email</label>
+                    <input type="text" class="form-control" name="email" aria-label="Email" aria-describedby="basic-addon2">
+                  </div>
+                  <div class="mb-3">
+                    <label for="formGroupExampleInput" class="form-label">Username</label>
+                    <input type="text" class="form-control" name="username" aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputPassword3" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" id="inputPassword3">
+                    <div id="passwordHelpBlock" class="form-text">
+                      Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputPassword3" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" name="passwordConfirmation" id="inputPassword3">
+                  </div>
+
+                  <div class="mb-3" id="registerClasses">
+                    <label for="validationCustom04" class="form-label">Register Your Class</label>
+                    <button type="button" id="addClassBtn" class="w3-button w3-circle w3-black">+</button>
+                    <select name="class1" class="form-select" id="validationCustom04" required>
+                      <option selected>Choose...</option>
+                      <% allCourses.forEach(course => { %>
+                      <option value=<%=course.CRN %>> <%= course.courseName %> </option>
+                      <% }) %>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <a href="/login">
+                      <button class="btn btn-primary" type="submit">Register</button>
+                    </a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+        </section>
+    </main>
+  </div>
 </body>
+
 </html>
