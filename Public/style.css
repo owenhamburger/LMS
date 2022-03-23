@@ -442,7 +442,7 @@ select {
   /* border: 5px solid #2f7996; */
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
   flex: 1;
 }
 

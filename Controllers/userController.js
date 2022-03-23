@@ -55,14 +55,11 @@ function checkNotAuthenticated(req, res, next) {
 function viewUserCourses(req, res) {
   const userID = req.session.passport.user;
   const userCourses = userModel.getUserCourses(userID);
-
-  userCourses.forEach((course) => {
-    console.log(course.courseName);
-  });
-  //   console.log(userCourses);
+  const user = userModel.getUserByID(userID);
+  const userName = user.firstName;
 
   //   req.flash("userCourses", userCourses);
-  res.render("courses_1", { userCourses: userCourses });
+  res.render("courses", { userCourses: userCourses, userName: userName });
 }
 
 module.exports = {

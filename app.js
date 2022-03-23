@@ -87,9 +87,15 @@ app.get(
   userController.viewUserCourses
 );
 
-// app.get('/index', userController.checkAuthenticated, (req, res) => {
-//   res.redirect("./index.html");
-// });
+app.get("/viewCourse", userController.checkAuthenticated, (req, res) => {
+  res.render("viewCourse");
+});
+
+app.get("/viewCourse/:CRN", userController.checkAuthenticated, (req, res) => {
+  res.render("viewCourse", {
+    courseName: userModel.getCourseByCRN(req.params.CRN),
+  });
+});
 
 app.get("/register", userController.checkNotAuthenticated, (req, res) => {
   res.render("register.ejs", { allCourses: userModel.getallCourses() });
