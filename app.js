@@ -77,9 +77,9 @@ app.get("/", userController.checkAuthenticated, (req, res) => {
   res.render("dashboard");
 });
 
-app.get("/browserJS/browserJS.js", (req, res) => {
-  res.sendFile("C:/Users/Fadya/Desktop/LMS_Project/browserJS/browserJS.js");
-});
+// app.get("/browserJS/browserJS.js", (req, res) => {
+//   res.sendFile("C:/Users/Fadya/Desktop/LMS_Project/browserJS/browserJS.js");
+// });
 
 app.get(
   "/courses",
@@ -87,9 +87,15 @@ app.get(
   userController.viewUserCourses
 );
 
-// app.get('/index', userController.checkAuthenticated, (req, res) => {
-//   res.redirect("./index.html");
-// });
+app.get("/viewCourse", userController.checkAuthenticated, (req, res) => {
+  res.render("viewCourse");
+});
+
+app.get("/viewCourse/:CRN", userController.checkAuthenticated, (req, res) => {
+  res.render("viewCourse", {
+    courseName: userModel.getCourseByCRN(req.params.CRN),
+  });
+});
 
 app.get("/register", userController.checkNotAuthenticated, (req, res) => {
   res.render("register.ejs", { allCourses: userModel.getallCourses() });

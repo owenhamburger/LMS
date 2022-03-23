@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<h1>Course List</h1>
+
+<% if (userCourses) { %>
+<% userCourses.forEach(course => { %>
+<div class="card text-center" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title"> <%= course.courseName %></h5>
+    <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+    <a href="#" class="btn btn-primary">View Course</a>
+  </div>
+</div>
+<% })} %>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./Public/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>LMS</title>
+</head>
+
+<body class="home">
+
+  <div id="wrap">
+    <header class="header">
+      <div class="top">
+        <div class="topL">
+          <p>LMS</p>
+        </div>
+        <div class="topR">
+          <div class="notificationContainer">
+            <img class="notificationLogo" src="./Public/images/notification.png" alt="Notification Logo" />
+          </div>
+        </div>
+        <a href="/logout">Logout</a>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="middleContainer">
+        <div class="sideBar">
+          <div class="sideBox1 profile">
+            <a href="">
+              <p>Student Name</p>
+            </a>
+          </div>
+          <div class="sideBox1 overview">
+            <a href="/">
+              <p>Overview</p>
+            </a>
+          </div>
+          <div class="sideBox1 courses">
+            <a href="./courses.html">
+              <P>Course</P>
+            </a>
+          </div>
+          <div class="sideBox1 quiz">
+            <a href="./assesment.html">
+              <P>Assesment</P>
+            </a>
+          </div>
+          <div class="sideBox1 grade">
+            <a href="./grades.html">
+              <P>Grades</P>
+            </a>
+          </div>
+          <div class="sideBox1 chat">
+            <a href="./chatClass.html">
+              <P>Chat Classmates</P>
+            </a>
+          </div>
+          <div class="sideBox1 reservation">
+            <a href="./reserveTutor.html">
+              <P>Reserve Tutor</P>
+            </a>
+          </div>
+        </div>
+        <section class="middleR">
+          <section class="title">
+            <div class="titleContainer">
+              <h2>
+                <a href="./">OVERVIEW </a> / <a href="/"> My Courses </a> /
+              </h2>
+            </div>
+          </section>
+          <section class="mainContainer">
+            <div class="courseList">
+              <% if (userCourses) { %>
+              <% userCourses.forEach(course => { %>
+              <div class="card bg-light mb-3" style="max-width: 18rem;">
+                <div class="card-header" style="background-color: #2f7996;"></div>
+                <div class="card-body">
+                  <h5 class="card-title"><%= course.courseName %></h5>
+                  <p class="card-text">Notifications: 1</p>
+                  <button type="button" class="btn btn-dark">View Course</button>
+                </div>
+              </div>
+              <% })} %>
+            </div>
+
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <section class="whitesection">
+        <div class="whiteContainer">
+          <div class="schoolName">
+            <p>ARKANSAS STATE EUNIVERSITY JAVA APPLICATION DEVELOPMENT</p>
+          </div>
+          <div class="address">
+            <p>Jonesboro, Arkansas | (870)000-0000</p>
+          </div>
+        </div>
+      </section>
+      <section class="greenSection">
+        <div class="greenContainer">
+          <div class="navLogo">
+            <div class="bottomNav">
+              <ul class="bnav">
+                <li><a href="/academic-year-housing-list/">COURSES</a></li>
+                <li><a href="summer.html">QUIZ/EXAM</a></li>
+                <li><a href="housingType.html">HOMEWORK</a></li>
+                <li><a href="price.html">GRADES</a></li>
+                <li><a href="contact.html">CHAT</a></li>
+                <li><a href="contact.html">RESERVE TUTOR</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="copyRight">
+            <p>© 2022 AMINEOWENFAREED</p>
+          </div>
+        </div>
+      </section>
+    </footer>
+  </div>
+  <!--wrap-->
+</body>
+
+</html>

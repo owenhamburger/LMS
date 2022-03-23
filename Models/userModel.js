@@ -81,12 +81,10 @@ function getallCourses() {
 }
 
 function getUserCourses(id) {
-  const sql = `SELECT courseName FROM User_Courses WHERE userID = @id`;
+  const sql = `SELECT * FROM User_Courses WHERE userID = @id`;
 
   const stmt = db.prepare(sql);
   const userCourses = stmt.all({ id });
-
-  console.log("MODEL", userCourses);
 
   return userCourses;
 }
@@ -106,4 +104,5 @@ module.exports = {
   getUserByID,
   getallCourses,
   getUserCourses,
+  getCourseByCRN,
 };
