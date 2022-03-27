@@ -62,9 +62,21 @@ function viewUserCourses(req, res) {
   res.render("courses", { userCourses: userCourses, userName: userName });
 }
 
+//change this and add databse
+function viewTaughtCourses(req, res) {
+  const userID = req.session.passport.user;
+  const userCourses = userModel.getUserCourses(userID);
+  const user = userModel.getUserByID(userID);
+  const userName = user.firstName;
+
+  //   req.flash("userCourses", userCourses);
+  res.render("adminCourses", { userCourses: userCourses, userName: userName });
+}
+
 module.exports = {
   createNewUser,
   checkAuthenticated,
   checkNotAuthenticated,
   viewUserCourses,
+  viewTaughtCourses
 };
