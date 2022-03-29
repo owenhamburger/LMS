@@ -74,6 +74,7 @@ const userModel = require("./Models/userModel");
 
 app.get("/", userController.checkAuthenticated, (req, res) => {
   // res.redirect("./public/index");
+  userController.checkRole(req, res);
   res.render("dashboard");
 });
 

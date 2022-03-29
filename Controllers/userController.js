@@ -52,6 +52,11 @@ function checkNotAuthenticated(req, res, next) {
   next();
 }
 
+function checkRole(req, res) {
+  const user = req.user;
+  console.log("user session: ", user);
+}
+
 function viewUserCourses(req, res) {
   const userID = req.session.passport.user;
   const userCourses = userModel.getUserCourses(userID);
@@ -67,4 +72,5 @@ module.exports = {
   checkAuthenticated,
   checkNotAuthenticated,
   viewUserCourses,
+  checkRole,
 };
