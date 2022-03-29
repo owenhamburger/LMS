@@ -22,7 +22,7 @@ async function createNewUser(req, res) {
 
   // account was succesfully created
   if (created) {
-    req.flash("accountCreated", "Account Created Successfully");
+    req.flash("accountCreated", "Account Created Successfully!");
     return res.status(201).redirect("/login");
   } else {
     const conflictedUser = userModel.getUserByUsername(username);

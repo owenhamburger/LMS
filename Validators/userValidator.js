@@ -21,40 +21,58 @@ const validateOpts = {
  * Validate User Creation Body
  *************************************/
 
-const createUserSchema = joi
-  .object({
-    username: joi
-      .string()
-      .min(6)
-      .token()
-      .lowercase()
-      .required()
-      .label("Username"),
+const createUserSchema = joi.object({
+  username: joi
+    .string()
+    .min(3)
+    .token()
+    .lowercase()
+    .required()
+    .label("Username"),
 
-    email: joi
-      .string()
-      .email({
-        minDomainSegments: 2,
-        maxDomainSegments: 3,
-        tlds: { allow: ["edu"] },
-      })
-      .label("Email"),
+  email: joi
+    .string()
+    .email({
+      minDomainSegments: 2,
+      maxDomainSegments: 3,
+      tlds: { allow: ["edu"] },
+    })
+    .label("Email"),
 
-    firstName: joi.string().min(1).token().required().label("First Name"),
+  firstName: joi.string().min(1).token().required().label("First Name"),
 
-    lastName: joi.string().min(1).token().required().label("Last Name"),
+  lastName: joi.string().min(1).token().required().label("Last Name"),
 
-    password: joi.string().min(8).required().label("Password"),
+  password: joi.string().min(6).required().label("Password"),
 
-    passwordConfirmation: joi
-      .any()
-      .equal(joi.ref("password"))
-      .required()
-      .label("Confirm password")
-      .messages({ "any.only": "{{#label}} does not match" })
-      .label("Confirm Password"),
-  })
-  .unknown();
+  passwordConfirmation: joi
+    .any()
+    .equal(joi.ref("password"))
+    .required()
+    .label("Confirm password")
+    .messages({ "any.only": "{{#label}} does not match" })
+    .label("Confirm Password"),
+
+  registeredClasses: joi
+    .alternatives()
+    .try(
+      joi
+        .array()
+        .unique()
+        .items(joi.string().regex(/^[0-9]$/)),
+      joi.string().regex(/^[0-9]$/)
+    )
+    // .array()
+    // .unique()
+    // .items(joi.string().regex(/^[0-9]$/))
+    .messages({
+      "array.unique": "Cannot register the same class multiple times",
+      "string.pattern.base": "Class registered cannot be empty",
+      // "string.max": "Class registered cannot be empty",
+      "alternatives.match": "Class registered cannot be empty",
+    }),
+});
+// .unknown();
 
 function validateUserCreationBody(req, res, next) {
   const { value, error } = createUserSchema.validate(req.body, validateOpts);
@@ -65,9 +83,6 @@ function validateUserCreationBody(req, res, next) {
 
     // get errors
     const errorMessages = error.details.map((detail) => detail.message);
-
-    // respond with errors
-    // return res.status(400).json({"error" : errorMessages});
 
     // errorMessages.forEach(error => {
     //     console.log("error:" + error.message);

@@ -33,17 +33,27 @@ async function createUser(
       passwordHash: PasswordHash,
     });
 
-    for (const key in reqBody) {
-      if (key.includes("class")) {
-        console.log("key:", key, reqBody[key]);
-        const courseName = getCourseByCRN(reqBody[key]);
-        classesStmt.run({
-          userID: userID,
-          CRN: reqBody[key],
-          courseName: courseName.courseName,
-        });
-      }
+    for (const registeredClass of reqBody.registeredClasses) {
+      console.log(registeredClass);
+      const courseName = getCourseByCRN(registeredClass);
+      classesStmt.run({
+        userID: userID,
+        CRN: registeredClass,
+        courseName: courseName.courseName,
+      });
     }
+
+    // for (const key in reqBody) {
+    //   if (key.includes("class")) {
+    //     console.log("key:", key, reqBody[key]);
+    //     const courseName = getCourseByCRN(reqBody[key]);
+    //     classesStmt.run({
+    //       userID: userID,
+    //       CRN: reqBody[key],
+    //       courseName: courseName.courseName,
+    //     });
+    //   }
+    // }
     created = true;
   } catch (err) {
     console.error(err);

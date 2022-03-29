@@ -7,12 +7,38 @@ document
   .addEventListener("click", function (event) {
     event.preventDefault();
     const div = document.getElementById("registerClasses");
-    const currentSelector = document.getElementById("validationCustom04");
+    const currentSelector = document.getElementById("selectDiv");
 
-    let duplicatedSelector = currentSelector.cloneNode(true);
-    duplicatedSelector.name = "class" + counter;
+    const duplicatedSelector = currentSelector.cloneNode(true);
+
+    // remove add button from duplicated selector
+    duplicatedSelector.getElementsByTagName("button")[0].remove();
+
+    // change attributes
+    // duplicatedSelector.name = "class" + counter;
+    duplicatedSelector.id = "selectDiv" + counter;
+    duplicatedSelector.className = "selectDiv";
+
+    // create remove button
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "btn btn-danger";
+    removeBtn.type = "button";
+    removeBtn.innerHTML = "x";
+    removeBtn.id = "removeBtn" + counter;
+
+    const lineBreak = document.createElement("br");
+    lineBreak.id = "break" + counter;
+
+    // add event to remove button to remove selector
+    removeBtn.addEventListener("click", function (event) {
+      event.preventDefault();
+      div.removeChild(duplicatedSelector);
+      div.removeChild(lineBreak);
+    });
+
     counter += 1;
 
-    div.appendChild(document.createElement("br"));
+    div.appendChild(lineBreak);
     div.appendChild(duplicatedSelector);
+    duplicatedSelector.appendChild(removeBtn);
   });
