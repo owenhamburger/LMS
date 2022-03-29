@@ -15,6 +15,9 @@ CREATE TABLE IF NOT EXISTS Courses (
     courseName TEXT NOT NULL 
 );
 
+--For admin users test dummy data
+--INSERT INTO User_Courses values("1234", "1", "Object Oriented Programming");
+--INSERT INTO User_Courses values("1234", "3", "Structured Programming");
 CREATE TABLE IF NOT EXISTS User_Courses (
     userID TEXT,
     CRN TEXT,

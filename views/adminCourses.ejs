@@ -20,17 +20,17 @@
     </div>
     <ul class="nav-links">
       <li>
-        <a href="#">
+        <a href="/">
           <i class='bx bxs-dashboard'></i>
           <span class="link_name">Dashboard</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Dashboard</a></li>
+          <li><a class="link_name" href="/">Dashboard</a></li>
         </ul>
       </li>
       <li>
         <div class="iocn-link">
-          <a href="/courses">
+          <a href="/adminCourses">
             <i class='bx bx-collection'></i>
             <span class="link_name">Courses</span>
           </a>
@@ -51,56 +51,6 @@
       </li>
 
       <li>
-        <a href="#">
-          <i class='bx bx-task'></i>
-          <span class="link_name">Assesments</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Assesments</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="#">
-          <i class='bx bx-notepad'></i>
-          <span class="link_name">Materials</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Materials</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="#">
-          <i class='bx bx-bar-chart'></i>
-          <span class="link_name">Grades</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Grades</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="#">
-          <i class='bx bxs-message-dots'></i>
-          <span class="link_name">Chats</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Chats</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="#">
-          <i class='bx bx-calendar'></i>
-          <span class="link_name">Tutor Reservation</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Tutor Reservation</a></li>
-        </ul>
-      </li>
-
-      <li>
         <a href="/logout">
           <i class='bx bx-log-out'></i>
           <span class="link_name">Log Out</span>
@@ -111,7 +61,19 @@
       </li>
 
 
-
+      <li>
+        <div class="profile-details">
+          <div class="profile-content">
+          </div>
+          <div class="name-job">
+            <div class="profile_name">
+              Hello <% if (userName) { %>
+              <%= userName %>!
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </li>
     </ul>
   </div>
   <section class="home-section">
@@ -120,7 +82,23 @@
     </div>
     <!-- <section class="home-section"> -->
     <!-- <div class="home-content"> -->
-    <h1 style="text-align: center;padding-top: 10px;"><%= courseName.courseName %></h1>
+    <h1 style="text-align: center;padding-top: 10px;">Courses Taught</h1>
+
+    <div class="courseList">
+      <% if (userCourses) { %>
+      <% userCourses.forEach(course => { %>
+      <div class="card bg-light mb-3" style="max-width: 18rem;">
+        <div class="card-header" style="background-color: #2f7996;"></div>
+        <div class="card-body">
+          <h5 class="card-title"><%= course.courseName %></h5>
+          <p class="card-text">Notifications: 1</p>
+          <a href="/adminViewCourse/<%= course.CRN%>" class="btn btn-dark" style="color: white; cursor: pointer;">View Course</a>
+        </div>
+      </div>
+      <% })} %>
+    </div>
+    <!-- </div> -->
+    <!-- </section> -->
   </section>
 
   <script src="../Public/sidebar.js" defer></script>

@@ -9,6 +9,7 @@ const passport = require("passport");
 const flash = require("express-flash");
 const methodOverride = require("method-override");
 const path = require("path");
+const fileUpload = require("express-fileupload");
 
 /*************************************
  * Create App
@@ -55,6 +56,9 @@ app.use(
   })
 );
 
+//Enable file upload
+app.use(fileUpload());
+
 app.set("view engine", "ejs");
 
 /*************************************
@@ -73,35 +77,75 @@ const userModel = require("./Models/userModel");
  *************************************/
 
 app.get("/", userController.checkAuthenticated, (req, res) => {
-  // res.redirect("./public/index");
-  userController.checkRole(req, res);
-  res.render("dashboard");
+  // res.redirect("./public/index")
+  if (req.user.isTeacher) {
+    res.render("adminDashboard");
+  } else {
+    res.render("dashboard");
+  }
 });
 
-// app.get("/browserJS/browserJS.js", (req, res) => {
-//   res.sendFile("C:/Users/Fadya/Desktop/LMS_Project/browserJS/browserJS.js");
-// });
+//Admin
+app.get(
+  "/adminCourses",
+  userController.checkAuthenticated,
+  userController.viewTaughtCourses
+);
 
+//Student
 app.get(
   "/courses",
   userController.checkAuthenticated,
   userController.viewUserCourses
 );
 
+//Admin - View Course
+app.get("/adminViewCourse", userController.checkAuthenticated, (req, res) => {
+  res.render("adminViewCourse");
+});
+
+//Student - View all courses
 app.get("/viewCourse", userController.checkAuthenticated, (req, res) => {
   res.render("viewCourse");
 });
 
+//Admin - View course by CRN
+app.get(
+  "/adminViewCourse/:CRN",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.render("adminViewCourse", {
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+      CRN: req.params.CRN,
+    });
+  }
+);
+
+//Admin - View Assesments by CRN
+app.get(
+  "/adminViewAssesments/:CRN",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.render("adminViewAssesments", {
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+      CRN: req.params.CRN,
+    });
+  }
+);
+
+//Student - View Assesments by CRN
 app.get("/viewCourse/:CRN", userController.checkAuthenticated, (req, res) => {
   res.render("viewCourse", {
     courseName: userModel.getCourseByCRN(req.params.CRN),
   });
 });
 
+//Student
 app.get("/register", userController.checkNotAuthenticated, (req, res) => {
   res.render("register.ejs", { allCourses: userModel.getallCourses() });
 });
 
+//Student
 app.post(
   "/register",
   userController.checkNotAuthenticated,
@@ -109,10 +153,12 @@ app.post(
   userController.createNewUser
 );
 
+//Admin & Student
 app.get("/login", userController.checkNotAuthenticated, (req, res) => {
   res.render("login");
 });
 
+//Admin & Student
 app.post(
   "/login",
   userController.checkNotAuthenticated,
@@ -123,10 +169,42 @@ app.post(
   })
 );
 
+//Admin & Student
 app.get("/logout", (req, res) => {
   req.logOut();
   req.flash("logOutSuccess", "Log Out Successful");
   res.redirect("/login");
+});
+
+//File upload
+app.post("/adminViewAssesments/:CRN", (req, res) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    req.flash("fileUploadFailure", "Please select a file to upload");
+    res.render("adminViewAssesments", {
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+      CRN: req.params.CRN,
+    });
+  } else {
+    //Store the name and path of the inputfile
+    const file = req.files.inputFile;
+    const path = __dirname + "/public/files/" + file.name;
+
+    //use the mv function to store the file on the server
+    file.mv(path, (err) => {
+      if (err) {
+        console.log("Unable to upload file:");
+        console.log(err);
+        req.flash("fileUploadFailure", "File not uploaded successfully");
+      } else {
+        console.log("File uploaded successfully");
+        req.flash("fileUploadSuccess", "File uploaded successfully");
+      }
+      return res.render("adminViewAssesments", {
+        courseName: userModel.getCourseByCRN(req.params.CRN),
+        CRN: req.params.CRN,
+      });
+    });
+  }
 });
 
 module.exports = app;
