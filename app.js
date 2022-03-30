@@ -60,6 +60,7 @@ app.use(
 app.use(fileUpload());
 
 app.set("view engine", "ejs");
+app.set('views',  [path.join(__dirname, 'views'),path.join(__dirname, 'views/admin'),path.join(__dirname, 'views/student')])
 
 /*************************************
  * Require Controllers
