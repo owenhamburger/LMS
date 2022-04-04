@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title> LMS</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="../../Public/style_course.css">
+  <link rel="stylesheet" href="../../Public/style.css">
+  <!-- Boxiocns CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+</head>
+
+<body>
+  <div class="sidebar close_1">
+    <div class="logo-details">
+      <i class='bx bxs-chalkboard'></i>
+      <span class="logo_name">LMS</span>
+    </div>
+    <ul class="nav-links">
+      <li>
+        <a href="#">
+          <i class='bx bxs-dashboard'></i>
+          <span class="link_name">Dashboard</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="">Dashboard</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="/courses">
+            <i class='bx bx-collection'></i>
+            <span class="link_name">Courses</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="courses.html">Courses</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <li>
+        <a href="#">
+          <i class='bx bxs-bell'></i>
+          <span class="link_name">Notifications</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Notifications</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="//viewCourse/<%= CRN %>/assessments">
+          <i class='bx bx-task'></i>
+          <span class="link_name">Assesments</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="assesment.html">Assesments</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/materials">
+          <i class='bx bx-notepad'></i>
+          <span class="link_name">Materials</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="notes.html">Materials</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/grades">
+          <i class='bx bx-bar-chart'></i>
+          <span class="link_name">Grades</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="grades.html">Grades</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="#">
+          <i class='bx bxs-message-dots'></i>
+          <span class="link_name">Chats</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="chats.html">Chats</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="#">
+          <i class='bx bx-calendar'></i>
+          <span class="link_name">Tutor Reservation</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="reservetutor.html">Tutor Reservation</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/logout">
+          <i class='bx bx-log-out'></i>
+          <span class="link_name">Log Out</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Log Out</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+  <section class="home-section">
+    <div class="home-content">
+      <i class='bx bx-menu'></i>
+    </div>
+
+    <h1 style="text-align: center;padding-top: 10px;">Assessments</h1>
+    <div class="assesmentMainSmallContainer">
+      <!-- <div class="assesmentContainer"> -->
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Material</th>
+            <th scope="col">Title</th>
+            <th scope="col">Posted</th>
+            <th scope="col">Due</th>
+            <th scope="col">Submitted File</th>
+            <!-- <th scope="col">Feedback</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <% if (currentAssessments) { %>
+          <% currentAssessments.forEach(assessment => { %>
+          <tr>
+            <td><a href="/public/files/<%= assessment.assessmentFile %>"><%= assessment.assessmentFile %></a></td>
+            <td><%= assessment.assessmentType %></td>
+            <td><%= new Date(assessment.postedDate).toLocaleString().split(',')[0] %></td>
+            <td><%= new Date(assessment.dueDate).toLocaleString().split(',')[0] %></td>
+            <!-- <td><%= assessment.dueDate %></td> -->
+            <% if (assessment.submittedFile) { %>
+            <td><a href="/public/files/<%= assessment.submittedFile %>"><%= assessment.submittedFile %></a></td>
+            <% } else { %>
+            <td>N/A</td>
+            <% }})} %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="uploadForm">
+      <% if(messages.fileUploadFailure) { %>
+      <div class="alert alert-danger" role="alert">
+        <%= messages.fileUploadFailure %>
+      </div>
+      <% } %>
+
+      <% if(messages.fileUploadSuccess) { %>
+      <div class="alert alert-success" role="alert">
+        <%= messages.fileUploadSuccess %>
+      </div>
+      <% } %>
+
+      <h3 style="text-align: center;padding-top: 10px; padding-bottom: 30px;">Submit Assessment</h3>
+
+      <!-- Add ability for students to submit assessment -->
+      <form action="/viewCourse/<%= CRN %>/assessments/" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group row">
+          <label for="file" class="col-sm-2 col-form-label">File</label>
+          <div class="col-sm-10">
+            <input type="file" class="form-control-file" id="file" name="inputFile">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="assessment" class="col-sm-2 col-form-label">Assessment</label>
+          <div class="col-sm-10">
+            <select name="assessment" id="assessment" class="form-select" required>
+              <% if (currentAssessments) { %>
+              <% currentAssessments.forEach(assessment => { %>
+              <option value="<%= assessment.assessmentFile %>"><%= assessment.assessmentFile.split('/').slice(-1)[0] %></option>
+              <% })} %>
+            </select>
+          </div>
+        </div>
+
+        <button style="margin-bottom: 10px;" class="btn btn-primary" type="submit">Upload</button>
+      </form>
+    </div>
+
+  </section>
+
+  <script src="../../Public/sidebar.js" defer></script>
+  <script>
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
+
+</html>

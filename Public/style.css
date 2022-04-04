@@ -9,10 +9,25 @@ body {
   /*width: 1500px;
     height: 2000px;*/
   background-size: cover;
-  background-color: #ffffff;
+  background-color: #f1f9ff;
   /* color: #ffffff; */
   font-size: 15px;
   /* font-family: "Open Sans", sans-serif; */
+}
+
+/* Assesment page */
+.assesmentMainContainer {
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.assesmentMainSmallContainer {
+  /* align-content: center; */
+  width: 100%;
+  padding: 50px;
 }
 
 .top {
@@ -536,7 +551,6 @@ select {
   border-radius: 50%;
 }
 
-
 /* Tooltip container */
 .tooltip {
   position: relative;
@@ -553,7 +567,7 @@ select {
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
- 
+
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
@@ -562,4 +576,17 @@ select {
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+.table {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f8fcff;
+}
+
+.uploadForm {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }

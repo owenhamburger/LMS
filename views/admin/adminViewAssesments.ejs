@@ -4,10 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <title> LMS</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="../Public/style_course.css">
-  <link rel="stylesheet" href="./Public/style.css">
+  <link rel="stylesheet" href="../Public/style.css">
   <!-- Boxiocns CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
@@ -95,7 +94,40 @@
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu'></i>
+      <h2><%= courseName.courseName %></h2>
     </div>
+
+    <h1 style="text-align: center;padding-top: 10px;">Assesments</h1>
+    <div class="assesmentMainSmallContainer">
+      <!-- <div class="assesmentContainer"> -->
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Material</th>
+            <th scope="col">Type</th>
+            <th scope="col">Posted</th>
+            <th scope="col">Due</th>
+            <th scope="col">Submitted Files</th>
+            <!-- <th scope="col">Feedback</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <% if (currentAssessments) { %>
+          <% currentAssessments.forEach(assessment => { %>
+          <tr>
+            <td><a href="/public/files/<%= assessment.assessmentFile %>"><%= assessment.assessmentFile%></a></td>
+            <td><%= assessment.assessmentType %></td>
+            <td><%= new Date(assessment.postedDate).toLocaleString().split(',')[0] %></td>
+            <td><%= new Date(assessment.dueDate).toLocaleString().split(',')[0] %></td>
+            <!-- <td><%= assessment.dueDate %></td> -->
+            <td><a href="/adminViewAssesments/<%= CRN %>/<%= assessment.assessmentFile %>">View Submissions</a></td>
+            <% })} %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="uploadForm">
       <% if(messages.fileUploadFailure) { %>
       <div class="alert alert-danger" role="alert">
         <%= messages.fileUploadFailure %>
@@ -104,25 +136,51 @@
 
       <% if(messages.fileUploadSuccess) { %>
       <div class="alert alert-success" role="alert">
-          <%= messages.fileUploadSuccess %>
+        <%= messages.fileUploadSuccess %>
       </div>
       <% } %>
-            <!-- <section class="home-section"> -->
-            <!-- <div class="home-content"> -->
-            <h2 style="text-align: left;padding-top: 10px;padding-left: 35px;">
-              <%= courseName.courseName %>
-            </h2>
-            <!-- Add ability for instructors to create assingments here -->
-            <form action="/adminViewAssesments/<%= CRN %>" method="POST" enctype="multipart/form-data">
-              <h3 style="text-align: left;padding-top: 10px;padding-left: 35px;">Upload Files</h3>
-              <div style="text-align: left;padding-left: 35px;padding-right: 35px" class="input-group">
-                <input type="file" class="form-control" id="file" aria-describedby="inputGroupFileAddon04"
-                  aria-label="Upload" name="inputFile">
-                <button class="btn btn-primary" type="submit">Submit</button>
-              </div>
-            </form>
+
+      <h3 style="text-align: center;padding-top: 10px; padding-bottom: 30px;">Upload new Assessment</h3>
+
+      <!-- Add ability for instructors to create assingments here -->
+      <form action="/adminViewAssesments/<%= CRN %>" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group row">
+          <label for="file" class="col-sm-2 col-form-label">File</label>
+          <div class="col-sm-10">
+            <input type="file" class="form-control-file" id="file" name="inputFile">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="assessmentType" class="col-sm-2 col-form-label">Assessment Type</label>
+          <div class="col-sm-10">
+            <select name="assessmentType" id="assessmentType" class="form-select" required>
+              <option value="Homework">Homework</option>
+              <option value="Quiz">Quiz</option>
+              <option value="Exam">Exam</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="date" class="col-sm-2 col-form-label">Due Date</label>
+          <div class="col-sm-10">
+            <input name="dueDate" type="date" id="date" required>
+          </div>
+        </div>
+
+        <button style="margin-bottom: 10px;" class="btn btn-primary" type="submit">Upload</button>
+      </form>
+    </div>
+
   </section>
   <script src="../Public/sidebar.js" defer></script>
+  <script>
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
 
 </body>
 

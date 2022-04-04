@@ -1,6 +1,7 @@
 "use strict";
 
 const argon2 = require("argon2");
+const { func } = require("joi");
 
 /*************************************
  * Require Models
@@ -73,10 +74,55 @@ function viewTaughtCourses(req, res) {
   res.render("adminCourses", { userCourses: userCourses, userName: userName });
 }
 
+function submitAssessment(req, res) {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    req.flash("fileUploadFailure", "Please select a file to upload");
+    return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
+    // res.render("assessments", {
+    //   currentAssessments: userModel.getSubmittedFile(
+    //     req.user.userID,
+    //     req.params.CRN
+    //   ),
+    //   CRN: req.params.CRN,
+    // });
+  } else {
+    const file = req.files.inputFile;
+    const path = __dirname + "/../public/files/studentSubmissions/" + file.name;
+
+    const inserted = userModel.submitAssessment(
+      req.user.userID,
+      req.params.CRN,
+      req.body.assessment,
+      file.name
+    );
+
+    if (inserted) {
+      file.mv(path, (err) => {
+        if (err) {
+          console.log("Unable to upload file:");
+          console.log(err);
+          req.flash("fileUploadFailure", "File not uploaded successfully");
+        } else {
+          console.log("File uploaded successfully");
+          req.flash("fileUploadSuccess", "File uploaded successfully");
+        }
+        return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
+      });
+    } else {
+      req.flash(
+        "fileUploadFailure",
+        "File already uploaded for assessment (implementation soon) "
+      );
+      return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
+    }
+  }
+}
+
 module.exports = {
   createNewUser,
   checkAuthenticated,
   checkNotAuthenticated,
   viewUserCourses,
   viewTaughtCourses,
+  submitAssessment,
 };

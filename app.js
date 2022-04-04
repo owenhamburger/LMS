@@ -60,18 +60,28 @@ app.use(
 app.use(fileUpload());
 
 app.set("view engine", "ejs");
-app.set('views',  [path.join(__dirname, 'views'),path.join(__dirname, 'views/admin'),path.join(__dirname, 'views/student')])
+app.set("views", [
+  path.join(__dirname, "views"),
+  path.join(__dirname, "views/admin"),
+  path.join(__dirname, "views/student"),
+]);
 
 /*************************************
  * Require Controllers
  *************************************/
 const userController = require("./Controllers/userController.js");
+const adminController = require("./Controllers/adminController.js");
 
 /*************************************
  * Require Validators
  *************************************/
 const userValidator = require("./Validators/userValidator");
+
+/*************************************
+ * Require Models
+ *************************************/
 const userModel = require("./Models/userModel");
+const adminModel = require("./Models/adminModel");
 
 /*************************************
  * Create Endpoints
@@ -130,6 +140,24 @@ app.get(
     res.render("adminViewAssesments", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
       CRN: req.params.CRN,
+      currentAssessments: adminModel.getCourseAssessments(req.params.CRN),
+    });
+  }
+);
+
+//Admin - View Student submissions for a particular assessment
+app.get(
+  "/adminViewAssesments/:CRN/:assessment",
+  userController.checkAuthenticated,
+  (req, res) => {
+    console.log(req.params);
+    res.render("viewSubmissions", {
+      submissions: adminModel.viewSubmissions(
+        req.params.CRN,
+        req.params.assessment
+      ),
+      CRN: req.params.CRN,
+      courseName: userModel.getCourseByCRN(req.params.CRN),
     });
   }
 );
@@ -177,35 +205,43 @@ app.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
-//File upload
-app.post("/adminViewAssesments/:CRN", (req, res) => {
-  if (!req.files || Object.keys(req.files).length === 0) {
-    req.flash("fileUploadFailure", "Please select a file to upload");
-    res.render("adminViewAssesments", {
-      courseName: userModel.getCourseByCRN(req.params.CRN),
+// View assessments
+app.get(
+  "/viewCourse/:CRN/assessments",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.render("assessments", {
+      currentAssessments: userModel.getSubmittedFile(
+        req.user.userID,
+        req.params.CRN
+      ),
       CRN: req.params.CRN,
     });
-  } else {
-    //Store the name and path of the inputfile
-    const file = req.files.inputFile;
-    const path = __dirname + "/public/files/" + file.name;
-
-    //use the mv function to store the file on the server
-    file.mv(path, (err) => {
-      if (err) {
-        console.log("Unable to upload file:");
-        console.log(err);
-        req.flash("fileUploadFailure", "File not uploaded successfully");
-      } else {
-        console.log("File uploaded successfully");
-        req.flash("fileUploadSuccess", "File uploaded successfully");
-      }
-      return res.render("adminViewAssesments", {
-        courseName: userModel.getCourseByCRN(req.params.CRN),
-        CRN: req.params.CRN,
-      });
-    });
   }
+);
+
+// student submit assessment
+app.post(
+  "/viewCourse/:CRN/assessments",
+  userController.checkAuthenticated,
+  userController.submitAssessment
+);
+
+// View materials
+app.get("/materials", userController.checkAuthenticated, (req, res) => {
+  res.render("materials");
 });
+
+// View grades
+app.get("/grades", userController.checkAuthenticated, (req, res) => {
+  res.render("grades");
+});
+
+//File upload
+app.post(
+  "/adminViewAssesments/:CRN",
+  userController.checkAuthenticated,
+  adminController.uploadAssessment
+);
 
 module.exports = app;

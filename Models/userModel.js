@@ -5,6 +5,8 @@ const crypto = require("crypto");
 const argon2 = require("argon2");
 const { func } = require("joi");
 
+const adminModel = require("./adminModel");
+
 async function createUser(
   email,
   username,
@@ -100,12 +102,52 @@ function getUserCourses(id) {
 }
 
 function getCourseByCRN(crn) {
-  const sql = `SELECT courseName FROM Courses WHERE CRN = @crn`;
+  const sql = `SELECT * FROM Courses WHERE CRN = @crn`;
 
   const stmt = db.prepare(sql);
   const courseName = stmt.get({ crn: crn });
 
   return courseName;
+}
+
+function getSubmittedFile(userID, crn) {
+  const sql = `
+  SELECT ca.CRN, ca.assessmentType, ca.postedDate, ca.dueDate, ca.assessmentFile, User_Assessments.submittedFile
+  FROM Course_Assessments as ca
+  LEFT JOIN User_Assessments ON
+  userID = @userID AND
+  User_Assessments.CRN = ca.CRN 
+  AND User_Assessments.assessmentFile = ca.assessmentFile
+  `;
+
+  const submittedFile = db.prepare(sql).all({
+    userID,
+    crn,
+  });
+
+  return submittedFile;
+}
+
+function submitAssessment(userID, crn, assessmentFile, submittedFile) {
+  const sql = `INSERT INTO User_Assessments VALUES (@userID, @crn, @assessmentFile, @submittedFile)`;
+
+  console.log("Model", userID, crn, assessmentFile, submittedFile);
+
+  let inserted;
+  try {
+    db.prepare(sql).run({
+      userID,
+      crn,
+      assessmentFile,
+      submittedFile,
+    });
+    inserted = true;
+  } catch (err) {
+    console.log(err);
+    inserted = false;
+  }
+
+  return inserted;
 }
 
 module.exports = {
@@ -115,4 +157,6 @@ module.exports = {
   getallCourses,
   getUserCourses,
   getCourseByCRN,
+  getSubmittedFile,
+  submitAssessment,
 };
