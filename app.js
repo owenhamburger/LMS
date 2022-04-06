@@ -243,6 +243,13 @@ app.get(
   }
 );
 
+// Select Tutor
+app.get( "/viewCourse/:CRN/tutorReservation/tutorInfo", 
+  userController.checkAuthenticated, 
+  (req, res) =>{ 
+    res.render("selectTutor"); 
+});
+
 // View grades
 app.get("/grades", userController.checkAuthenticated, (req, res) => {
   res.render("grades");
