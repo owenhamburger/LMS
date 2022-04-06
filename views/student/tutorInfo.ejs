@@ -151,35 +151,24 @@
       </div>
         <div class="reserveTutorContainer">
           <h2 style="text-align: center; font-size: 20px; margin-top: 30px;">Select Tutor</h2>
-          <div class="courseListContainer">
-            <div class="courseList">
-                <div class="card bg-light mb-3" style="max-width: 18rem;">
-                  <div class="card-header" style="background-color: #343a40;"></div>
-                  <div class="card-body text-primary">
-                    <h5 class="card-title">Tutor 1</h5>
-                    <a href="/tutorInfo.ejs/" class="btn btn-dark" style="color: white; cursor: pointer;">Select Tutor</a>
-                  </div>
-                </div>
-            </div>
-            <div class="courseList">
-                <div class="card bg-light mb-3" style="max-width: 18rem;">
-                  <div class="card-header" style="background-color: #343a40;"></div>
-                  <div class="card-body text-primary">
-                    <h5 class="card-title">Tutor 2</h5>
-                    <a href="/tutorInfo.ejs/" class="btn btn-dark" style="color: white; cursor: pointer;">Select Tutor</a>
-                  </div>
-                </div>
-            </div>
-            <div class="courseList">
-                <div class="card bg-light mb-3" style="max-width: 18rem;">
-                  <div class="card-header" style="background-color: #343a40;"></div>
-                  <div class="card-body text-primary">
-                    <h5 class="card-title">Tutor 3</h5>
-                    <a href="/tutorInfo.ejs/" class="btn btn-dark" style="color: white; cursor: pointer;">Select Tutor</a>
-                  </div>
-                </div>
-            </div>
+          <div class="mb-3">
+            <input class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required="" type="date" name="date">
           </div>
+          <div class="mb-3">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+              <option selected>Select Time</option>
+              <option value="1">8am - 9am</option>
+              <option value="2">9am - 10am</option>
+              <option value="3">10am - 11am</option>
+              <option value="4">11am - 12pm</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <a href="./summary1.html">
+              <button type="continue" class="btn btn-primary">Save and Continue</button>
+            </a>
+          </div>
+        </div>
         </div>
     </section>
     <!-- <div class="home-content"> -->
