@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title> LMS</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="../../Public/style_course.css">
   <link rel="stylesheet" href="../assets/stylesheets/style.css">
   <!-- Boxiocns CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -50,7 +51,7 @@
       </li>
 
       <li>
-        <a href="#">
+        <a href="/viewCourse/<%= courseName.CRN %>/assessments">
           <i class='bx bx-task'></i>
           <span class="link_name">Assesments</span>
         </a>
@@ -141,7 +142,7 @@
               <td>12pm - 1pm</td>
               <td>Owen H</td>
             </tr>
-  
+
             <tr>
               <td rowspan="1">April 10th, Wednesday</td>
               <td>2pm - 3pm</td>
@@ -153,7 +154,7 @@
       <div class="reserveTutorMainSmallContainer">
         <div class="reserveTutorContainer">
           <div class="mb-3">
-            <input class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"required="" type="date" name="date">
+            <input class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required="" type="date" name="date">
           </div>
           <div class="mb-3">
             <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
@@ -188,4 +189,5 @@
   <script src="../Public/sidebar.js" defer></script>
 
 </body>
+
 </html>

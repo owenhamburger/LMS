@@ -232,6 +232,17 @@ app.get("/materials", userController.checkAuthenticated, (req, res) => {
   res.render("materials");
 });
 
+// View tutor reservations
+app.get(
+  "/viewCourse/:CRN/tutorReservation/",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.render("selectTutor", {
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+    });
+  }
+);
+
 // View grades
 app.get("/grades", userController.checkAuthenticated, (req, res) => {
   res.render("grades");
