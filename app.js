@@ -248,8 +248,21 @@ app.get(
   "/viewCourse/:CRN/tutorReservation/tutorInfo", 
   userController.checkAuthenticated, 
   (req, res) => { 
-    res.render("selectTutor", {
-      CRN: req.params.CRN
+    res.render("tutorInfo", {
+      courseName: userModel.getCourseByCRN(req.params.CRN)
+      /*CRN: req.params.CRN*/
+    }); 
+  }
+);
+
+// Select Tutor
+app.get( 
+  "/viewCourse/:CRN/tutorReservation/tutorInfo/summary", 
+  userController.checkAuthenticated, 
+  (req, res) => { 
+    res.render("summary", {
+      courseName: userModel.getCourseByCRN(req.params.CRN)
+      /*CRN: req.params.CRN*/
     }); 
   }
 );

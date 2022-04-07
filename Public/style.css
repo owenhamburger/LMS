@@ -598,3 +598,28 @@ select {
 .courseListContainer{
   display: flex;
 }
+
+.tutorInfo{
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tutorInfo .form-select{
+  width: 400px;
+  height: 50px;
+}
+
+.summaryMainContainer{
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.summaryLogoContainer{
+  display: flex;
+}
+
+.dateContainer{
+  margin-top: 20px;
+}
