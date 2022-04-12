@@ -232,6 +232,17 @@ app.get("/materials", userController.checkAuthenticated, (req, res) => {
   res.render("materials");
 });
 
+// View chat page
+app.get(
+  "/viewCourse/:CRN/chat/",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.render("chat", {
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+    });
+  }
+);
+
 // View tutor reservations
 app.get(
   "/viewCourse/:CRN/tutorReservation/",
@@ -240,6 +251,42 @@ app.get(
     res.render("selectTutor", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
     });
+  }
+);
+
+// Select Tutor
+app.get( 
+  "/viewCourse/:CRN/tutorReservation/tutorInfo", 
+  userController.checkAuthenticated, 
+  (req, res) => { 
+    res.render("tutorInfo", {
+      courseName: userModel.getCourseByCRN(req.params.CRN)
+      /*CRN: req.params.CRN*/
+    }); 
+  }
+);
+
+// Tutor Reservation Summary
+app.get( 
+  "/viewCourse/:CRN/tutorReservation/tutorInfo/summary", 
+  userController.checkAuthenticated, 
+  (req, res) => { 
+    res.render("summary", {
+      courseName: userModel.getCourseByCRN(req.params.CRN)
+      /*CRN: req.params.CRN*/
+    }); 
+  }
+);
+
+// summary to course page
+app.get( 
+  "/viewCourse/:CRN/tutorReservation/tutorInfo/summary/course", 
+  userController.checkAuthenticated, 
+  (req, res) => { 
+    res.render("course", {
+      courseName: userModel.getCourseByCRN(req.params.CRN)
+      /*CRN: req.params.CRN*/
+    }); 
   }
 );
 
