@@ -309,7 +309,7 @@ select {
   padding-top: 10px;
 }
 
-.viewContainer {
+/*.viewContainer {
   width: 100px;
   height: 30px;
   border: 1px solid black;
@@ -318,7 +318,7 @@ select {
   flex-direction: row-reverse;
   margin-right: 10px;
   padding-right: 10px;
-}
+}*/
 
 .viewContainer:hover {
   background-position: 99% 50%;
@@ -895,4 +895,29 @@ select {
     height: calc(100vh - 350px);
     overflow-x: auto;
   }
+}
+
+/* dashboard */
+.dashMainContainer{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card-header{
+  width: 463px;
+  height: 60px;
+  font-size: 20px;
+}
+
+.list-group-item{
+  width: 463px;
+  height: 60px;
+}
+
+.viewMore{
+  width: 463px;
+  height: 60px;
+  padding-right: 20px;
 }
