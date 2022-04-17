@@ -2,11 +2,11 @@
   "name": "lms",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
     "init-db": "node ./Database/init-db.js",
-    "dev": "npm run init-db && nodemon server.js"
+    "hydrate-db": "node ./Database/hydrate-db.js",
+    "dev": "npm run init-db && npm run hydrate-db && nodemon server.js"
   },
   "repository": {
     "type": "git",

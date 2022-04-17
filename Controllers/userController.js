@@ -1,7 +1,6 @@
 "use strict";
 
 const argon2 = require("argon2");
-const { func } = require("joi");
 
 /*************************************
  * Require Models
@@ -60,7 +59,14 @@ function viewUserCourses(req, res) {
   const userName = user.firstName;
 
   //   req.flash("userCourses", userCourses);
-  res.render("courses", { userCourses: userCourses, userName: userName });
+  if (req.user.role === "student") {
+    res.render("courses", { userCourses: userCourses, userName: userName });
+  } else {
+    res.render("tutorDashboard", {
+      userCourses: userCourses,
+      userName: userName,
+    });
+  }
 }
 
 //change this and add databse

@@ -25,7 +25,7 @@
           <span class="link_name">Dashboard</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="">Dashboard</a></li>
+          <li><a class="link_name" href="#">Dashboard</a></li>
         </ul>
       </li>
       <li>
@@ -35,7 +35,7 @@
             <span class="link_name">Courses</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="courses.html">Courses</a></li>
+            <li><a class="link_name" href="#">Courses</a></li>
           </ul>
         </div>
       </li>
@@ -56,47 +56,47 @@
           <span class="link_name">Assesments</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="assesment.html">Assesments</a></li>
+          <li><a class="link_name" href="#">Assesments</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="#">
+        <a href="/viewCourse/<%= courseName.CRN %>/materials">
           <i class='bx bx-notepad'></i>
           <span class="link_name">Materials</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="notes.html">Materials</a></li>
+          <li><a class="link_name" href="#">Materials</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="#">
+        <a href="/viewCourse/<%= courseName.CRN %>/grades">
           <i class='bx bx-bar-chart'></i>
           <span class="link_name">Grades</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="grades.html">Grades</a></li>
+          <li><a class="link_name" href="#">Grades</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="#">
+        <a href="/viewCourse/<%= courseName.CRN %>/chat">
           <i class='bx bxs-message-dots'></i>
           <span class="link_name">Chats</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="chats.html">Chats</a></li>
+          <li><a class="link_name" href="#">Chats</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="#">
+        <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation">
           <i class='bx bx-calendar'></i>
           <span class="link_name">Tutor Reservation</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="reservetutor.html">Tutor Reservation</a></li>
+          <li><a class="link_name" href="#">Tutor Reservation</a></li>
         </ul>
       </li>
 
@@ -115,34 +115,58 @@
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu'></i>
+      <%= courseName.courseName %>
     </div>
-    <h1 style="text-align: center; padding-top: 10px;">Reserve a Session</h1>
+    <h1 style="text-align: center; padding-top: 10px;">Schedule an Appointment</h1>
+
+    <br><br><br><br>
     <section class="tutorInfoMainContainer">
+      <% if(messages.reservationError) { %>
+      <div class="alert alert-danger" role="alert">
+        <%= messages.reservationError %>
+      </div>
+      <br><br><br>
+      <% } %>
+
+      <h6 style=" font-weight: 300;">Note: You must first select a date to display the free slots</h6>
+      <form action="/viewCourse/<%= courseName.CRN %>/tutorReservation/<%= tutorID %>" method="POST">
         <div class="tutorInfo">
-            <div class="mb-3">
-                <input class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required="" type="date" name="date">
-            </div>
-            <div class="mb-3">
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                    <option selected>Select Time</option>
-                    <option value="1">8am - 9am</option>
-                    <option value="2">9am - 10am</option>
-                    <option value="3">10am - 11am</option>
-                    <option value="4">11am - 12pm</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation/tutorInfo/summary">
-                    <button type="continue" class="btn btn-primary">Save and Continue</button>
-                </a>
-            </div>
+          <div class="mb-3">
+            <input class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required="" type="date" name="date" id="datePicker">
+          </div>
+          <div class="mb-3">
+            <select name="meetingTime" id="timeOptions" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
+      </form>
+
+      <!-- <div class="mb-3">
+        <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation/tutorInfo/summary">
+          <button type="continue" class="btn btn-primary">Save and Continue</button>
+        </a>
+      </div> -->
+      </div>
     </section>
     <!-- <div class="home-content"> -->
     <h1 style="text-align: center;padding-top: 10px;"></h1>
   </section>
 
-  <script src="../Public/sidebar.js" defer></script>
+  <script src="/../../Public/sidebar.js" defer></script>
+
+  <script type="text/javascript">
+    var reservationsEJS = '<%- JSON.stringify(tutorReservations) %>';
+    var tutorScheduleEJS = '<%- JSON.stringify(tutorSchedule) %>'
+  </script>
+
+  <script src="/../../Public/tutorReservations.js" defer></script>
+
+  <script>
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
 
 </body>
 

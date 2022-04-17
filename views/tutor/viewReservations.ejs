@@ -41,62 +41,12 @@
       </li>
 
       <li>
-        <a href="#">
-          <i class='bx bxs-bell'></i>
-          <span class="link_name">Notifications</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Notifications</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/assessments">
-          <i class='bx bx-task'></i>
-          <span class="link_name">Assesments</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Assesments</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/materials">
-          <i class='bx bx-notepad'></i>
-          <span class="link_name">Materials</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Materials</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/grades">
-          <i class='bx bx-bar-chart'></i>
-          <span class="link_name">Grades</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Grades</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/chat">
-          <i class='bx bxs-message-dots'></i>
-          <span class="link_name">Chats</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Chats</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation">
+        <a href="/tutor/tutorReservation">
           <i class='bx bx-calendar'></i>
           <span class="link_name">Tutor Reservation</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Tutor Reservation</a></li>
+          <li><a class="link_name" href="#">Tutor Reservations</a></li>
         </ul>
       </li>
 
@@ -115,9 +65,8 @@
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu'></i>
-      <%= courseName.courseName %>
     </div>
-    <h1 style="text-align: center; padding-top: 10px;">Reserve Tutor</h1>
+    <h1 style="text-align: center; padding-top: 10px;">Reservations</h1>
     <br><br>
     <section class="reserveTutorMainContainer">
       <div class="reserveTutorTop">
@@ -125,18 +74,20 @@
         <table class="table table-hover">
           <thead class="thead-dark">
             <tr>
+              <th scope="col">Student Name</th>
               <th scope="col">Date</th>
               <th scope="col">Time</th>
-              <th scope="col">Tutor</th>
+              <th scope="col">Course</th>
             </tr>
           </thead>
           <tbody>
             <% if (reservations) { %>
             <% reservations.forEach( (res) => { %>
             <tr>
+              <td><%= res.firstName + " " + res.lastName %></td>
               <td><%= new Date(res.meetingDate.split("-")[0], res.meetingDate.split("-")[1] - 1, res.meetingDate.split("-")[2]).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></td>
               <td><%= res.meetingTime %></td>
-              <td><%= res.firstName + " " + res.lastName %></td>
+              <td><%= res.courseName %></td>
             </tr>
             <% })} %>
           </tbody>
@@ -144,28 +95,6 @@
       </div>
 
       <br><br><br><br>
-
-      <% if(messages.reservationCreated) { %>
-      <div class="alertCustom alert alert-success" role="alert">
-        <%= messages.reservationCreated %>
-      </div>
-      <br><br>
-      <% } %>
-
-      <h4 style="text-align: center; font-weight: 300;">Select a tutor to schedule an appointment</h4>
-
-      <div class="courseList">
-        <% if (tutors) { %>
-        <% tutors.forEach(tutor => { %>
-        <div class="card bg-light mb-3" style="max-width: 18rem;">
-          <div class="card-header" style="background-color: #2f7996;"></div>
-          <div class="card-body">
-            <h5 class="card-title"><%= tutor.firstName + " " + tutor.lastName %></h5>
-            <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation/<%= tutor.tutorID %>" class="btn btn-dark" style="color: white; cursor: pointer;">Select Tutor</a>
-          </div>
-        </div>
-        <% })} %>
-      </div>
 
     </section>
     <!-- <div class="home-content"> -->

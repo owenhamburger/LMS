@@ -7,24 +7,15 @@ CREATE TABLE IF NOT EXISTS Users (
     lastName TEXT NOT NULL,
     passwordHash TEXT NOT NULL,
     --chatPort NUMERIC,
-    isTeacher BOOLEAN
+    -- isTeacher BOOLEAN
+    "role" TEXT NOT NULL
 );
-
--- INSERT into courses values ('1', 'Concepts of Programming');
--- INSERT into courses values ('2', 'Structured Programming');
--- INSERT into courses values ('3', 'Object Oriented Programming');
--- INSERT into courses values ('4', 'Algorithms and Data Structure');
--- INSERT into courses values ('5', 'Operating Systems');
--- INSERT into courses values ('6', 'Computer Networks');
 
 CREATE TABLE IF NOT EXISTS Courses (
     CRN TEXT PRIMARY KEY,
     courseName TEXT NOT NULL 
 );
 
---For admin users test dummy data
---INSERT INTO User_Courses values("1", "3", "Object Oriented Programming");
---INSERT INTO User_Courses values("1234", "3", "Structured Programming");
 CREATE TABLE IF NOT EXISTS User_Courses (
     userID TEXT,
     CRN TEXT,
@@ -99,11 +90,39 @@ CREATE TABLE IF NOT EXISTS Reservations (
     userID TEXT,
     tutorID TEXT,
     CRN TEXT,
-    "time" TEXT NOT NULL,
-    "date" TEXT NOT NULL,
+    meetingTime TEXT NOT NULL,
+    meetingDate INT NOT NULL,
+
+    PRIMARY KEY(tutorID, meetingTime, meetingDate),
+    
+    UNIQUE (userID, meetingTime, meetingDate),
 
     FOREIGN KEY(userID) REFERENCES Users(userID)
         ON DELETE CASCADE,
+
+    FOREIGN KEY(tutorID) REFERENCES Users(userID)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY(CRN) REFERENCES Courses(CRN)
+);
+
+CREATE TABLE IF NOT EXISTS Tutor_Schedule (
+    tutorID TEXT,
+    meetingTime TEXT NOT NULL,
+    dayOfWeek TEXT NOT NULL,
+
+    -- PRIMARY KEY(tutorID, meetingTime, dayOfWeek),
+
+    FOREIGN KEY(tutorID) REFERENCES Users(userID)
+        ON DELETE CASCADE
+);
+
+-- Courses that the tutor tutors
+CREATE TABLE IF NOT EXISTS Tutor_Courses (
+    tutorID TEXT,
+    CRN TEXT,
+
+    PRIMARY KEY(tutorID, CRN),
 
     FOREIGN KEY(tutorID) REFERENCES Users(userID)
         ON DELETE CASCADE,

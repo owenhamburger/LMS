@@ -3,9 +3,9 @@
 const db = require("./db");
 const crypto = require("crypto");
 const argon2 = require("argon2");
-const { func } = require("joi");
 
 const adminModel = require("./adminModel");
+const { func } = require("joi");
 
 async function createUser(
   email,
@@ -19,7 +19,7 @@ async function createUser(
   const userID = crypto.randomUUID();
   const PasswordHash = await argon2.hash(password);
 
-  const sql = `INSERT INTO Users values (@userID, @email, @username, @firstName, @lastName, @passwordHash, 0)`;
+  const sql = `INSERT INTO Users values (@userID, @email, @username, @firstName, @lastName, @passwordHash, 'student')`;
   const classesSql = `INSERT INTO User_Courses values (@userID, @CRN, @courseName)`;
 
   const stmt = db.prepare(sql);
@@ -110,6 +110,22 @@ function getCourseByCRN(crn) {
   return courseName;
 }
 
+function getUserReservations(userID, crn) {
+  const sql = `
+  SELECT meetingTime, meetingDate, firstName, lastName 
+  FROM reservations 
+  JOIN users ON tutorid = users.userid 
+  WHERE reservations.userid = @userID AND reservations.crn = @crn;`;
+
+  const stmt = db.prepare(sql);
+  const reservations = stmt.all({
+    userID: userID,
+    crn: crn,
+  });
+
+  return reservations;
+}
+
 function getSubmittedFile(userID, crn) {
   const sql = `
   SELECT ca.CRN, ca.assessmentType, ca.postedDate, ca.dueDate, ca.assessmentFile, User_Assessments.submittedFile
@@ -157,6 +173,7 @@ module.exports = {
   getallCourses,
   getUserCourses,
   getCourseByCRN,
+  getUserReservations,
   getSubmittedFile,
   submitAssessment,
 };

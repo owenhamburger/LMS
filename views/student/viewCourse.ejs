@@ -61,7 +61,7 @@
       </li>
 
       <li>
-        <a href="/materials">
+        <a href="/viewCourse/<%= courseName.CRN %>/materials">
           <i class='bx bx-notepad'></i>
           <span class="link_name">Materials</span>
         </a>
@@ -71,7 +71,7 @@
       </li>
 
       <li>
-        <a href="/grades">
+        <a href="/viewCourse/<%= courseName.CRN %>/grades">
           <i class='bx bx-bar-chart'></i>
           <span class="link_name">Grades</span>
         </a>
@@ -90,6 +90,7 @@
         </ul>
       </li>
 
+      <% if (role === "student") { %>
       <li>
         <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation">
           <i class='bx bx-calendar'></i>
@@ -99,6 +100,7 @@
           <li><a class="link_name" href="#">Tutor Reservation</a></li>
         </ul>
       </li>
+      <% } %>
 
       <li>
         <a href="/logout">
@@ -115,6 +117,7 @@
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu'></i>
+      <%= courseName.courseName %>
     </div>
     <!-- <section class="home-section"> -->
     <!-- <div class="home-content"> -->
@@ -122,6 +125,12 @@
   </section>
 
   <script src="../Public/sidebar.js" defer></script>
+
+  <script>
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
 
 </body>
 

@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <title> LMS</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="../Public/style_course.css">
-  <link rel="stylesheet" href="../Public/style.css">
+  <link rel="stylesheet" href="/../Public/style_course.css">
+  <link rel="stylesheet" href="/../Public/style.css">
   <!-- Boxiocns CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
@@ -25,7 +25,7 @@
           <span class="link_name">Dashboard</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="">Dashboard</a></li>
+          <li><a class="link_name" href="#">Dashboard</a></li>
         </ul>
       </li>
       <li>
@@ -35,7 +35,7 @@
             <span class="link_name">Courses</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="courses.html">Courses</a></li>
+            <li><a class="link_name" href="#">Courses</a></li>
           </ul>
         </div>
       </li>
@@ -51,54 +51,56 @@
       </li>
 
       <li>
-        <a href="/assessments">
+        <a href="/viewCourse/<%= courseName.CRN %>/assessments">
           <i class='bx bx-task'></i>
           <span class="link_name">Assesments</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="assesment.html">Assesments</a></li>
+          <li><a class="link_name" href="#">Assesments</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/materials">
+        <a href="/viewCourse/<%= courseName.CRN %>/materials">
           <i class='bx bx-notepad'></i>
           <span class="link_name">Materials</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="notes.html">Materials</a></li>
+          <li><a class="link_name" href="#">Materials</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/grades">
+        <a href="/viewCourse/<%= courseName.CRN %>/grades">
           <i class='bx bx-bar-chart'></i>
           <span class="link_name">Grades</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="grades.html">Grades</a></li>
+          <li><a class="link_name" href="#">Grades</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="#">
+        <a href="/viewCourse/<%= courseName.CRN %>/chat">
           <i class='bx bxs-message-dots'></i>
           <span class="link_name">Chats</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="chats.html">Chats</a></li>
+          <li><a class="link_name" href="#">Chats</a></li>
         </ul>
       </li>
 
+      <% if (role === "student") { %>
       <li>
-        <a href="/selectTutor">
+        <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation">
           <i class='bx bx-calendar'></i>
           <span class="link_name">Tutor Reservation</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="selectTutor.ejs">Tutor Reservation</a></li>
+          <li><a class="link_name" href="#">Tutor Reservation</a></li>
         </ul>
       </li>
+      <% } %>
 
       <li>
         <a href="/logout">
@@ -115,6 +117,7 @@
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu'></i>
+      <%= courseName.courseName %>
     </div>
     <!-- <section class="home-section"> -->
     <!-- <section class="middleR"> -->
@@ -156,6 +159,12 @@
     <!-- <h1 style="text-align: center;padding-top: 10px;"></h1> -->
   </section>
 
-  <script src="../Public/sidebar.js" defer></script>
+  <script src="/../Public/sidebar.js" defer></script>
+
+  <script>
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
 
 </html>

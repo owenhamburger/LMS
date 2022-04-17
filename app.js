@@ -64,6 +64,7 @@ app.set("views", [
   path.join(__dirname, "views"),
   path.join(__dirname, "views/admin"),
   path.join(__dirname, "views/student"),
+  path.join(__dirname, "views/tutor"),
 ]);
 
 /*************************************
@@ -71,6 +72,7 @@ app.set("views", [
  *************************************/
 const userController = require("./Controllers/userController.js");
 const adminController = require("./Controllers/adminController.js");
+const tutorController = require("./Controllers/tutorController.js");
 
 /*************************************
  * Require Validators
@@ -82,6 +84,7 @@ const userValidator = require("./Validators/userValidator");
  *************************************/
 const userModel = require("./Models/userModel");
 const adminModel = require("./Models/adminModel");
+const tutorModel = require("./Models/tutorModel");
 
 /*************************************
  * Create Endpoints
@@ -89,7 +92,7 @@ const adminModel = require("./Models/adminModel");
 
 app.get("/", userController.checkAuthenticated, (req, res) => {
   // res.redirect("./public/index")
-  if (req.user.isTeacher) {
+  if (req.user.role == "instructor") {
     res.render("adminDashboard");
   } else {
     res.render("dashboard");
@@ -166,6 +169,7 @@ app.get(
 app.get("/viewCourse/:CRN", userController.checkAuthenticated, (req, res) => {
   res.render("viewCourse", {
     courseName: userModel.getCourseByCRN(req.params.CRN),
+    role: req.user.role,
   });
 });
 
@@ -216,6 +220,8 @@ app.get(
         req.params.CRN
       ),
       CRN: req.params.CRN,
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+      role: req.user.role,
     });
   }
 );
@@ -228,72 +234,134 @@ app.post(
 );
 
 // View materials
-app.get("/materials", userController.checkAuthenticated, (req, res) => {
-  res.render("materials");
-});
+app.get(
+  "/viewCourse/:CRN/materials",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.render("materials", {
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+      role: req.user.role,
+    });
+  }
+);
 
 // View chat page
 app.get(
-  "/viewCourse/:CRN/chat/",
+  "/viewCourse/:CRN/chat",
   userController.checkAuthenticated,
   (req, res) => {
     res.render("chat", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
+      role: req.user.role,
     });
   }
 );
 
-// View tutor reservations
+// View user reservations
 app.get(
-  "/viewCourse/:CRN/tutorReservation/",
+  "/viewCourse/:CRN/tutorReservation",
   userController.checkAuthenticated,
   (req, res) => {
-    res.render("selectTutor", {
-      courseName: userModel.getCourseByCRN(req.params.CRN),
+    if (req.user.role === "student") {
+      res.render("selectTutor", {
+        courseName: userModel.getCourseByCRN(req.params.CRN),
+        tutors: tutorModel.getTutorsByCRN(req.params.CRN),
+        reservations: userModel.getUserReservations(
+          req.user.userID,
+          req.params.CRN
+        ),
+      });
+    } else {
+      res.redirect(`/viewCourse/${req.params.CRN}`);
+    }
+  }
+);
+
+// view tutor reservations
+app.get(
+  "/tutor/tutorReservation",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.render("viewReservations", {
+      reservations: tutorModel.viewTutorReservations(req.user.userID),
     });
   }
 );
 
-// Select Tutor
-app.get( 
-  "/viewCourse/:CRN/tutorReservation/tutorInfo", 
-  userController.checkAuthenticated, 
-  (req, res) => { 
-    res.render("tutorInfo", {
-      courseName: userModel.getCourseByCRN(req.params.CRN)
-      /*CRN: req.params.CRN*/
-    }); 
+// View tutor's available times
+app.get(
+  "/viewCourse/:CRN/tutorReservation/:selectedTutorID",
+  userController.checkAuthenticated,
+  (req, res) => {
+    if (req.user.role === "student") {
+      res.render("tutorInfo", {
+        courseName: userModel.getCourseByCRN(req.params.CRN),
+        tutorSchedule: tutorModel.getTutorSchedule(req.params.selectedTutorID),
+        tutorReservations: tutorModel.getTutorReservations(
+          req.params.selectedTutorID
+        ),
+        tutorID: req.params.selectedTutorID,
+        /*CRN: req.params.CRN*/
+      });
+    } else {
+      res.redirect(`/viewCourse/${req.params.CRN}`);
+    }
+  }
+);
+
+// reserve tutor
+app.post(
+  "/viewCourse/:CRN/tutorReservation/:selectedTutorID",
+  userController.checkAuthenticated,
+  (req, res) => {
+    if (req.user.role === "student") {
+      tutorController.tutorReservation(
+        req,
+        res,
+        req.params.CRN,
+        req.params.selectedTutorID
+      );
+    } else {
+      res.redirect(`/viewCourse/${req.params.CRN}`);
+    }
   }
 );
 
 // Tutor Reservation Summary
-app.get( 
-  "/viewCourse/:CRN/tutorReservation/tutorInfo/summary", 
-  userController.checkAuthenticated, 
-  (req, res) => { 
+app.get(
+  "/viewCourse/:CRN/tutorReservation/tutorInfo/summary",
+  userController.checkAuthenticated,
+  (req, res) => {
     res.render("summary", {
-      courseName: userModel.getCourseByCRN(req.params.CRN)
+      courseName: userModel.getCourseByCRN(req.params.CRN),
       /*CRN: req.params.CRN*/
-    }); 
+    });
   }
 );
 
 // summary to course page
-app.get( 
-  "/viewCourse/:CRN/tutorReservation/tutorInfo/summary/course", 
-  userController.checkAuthenticated, 
-  (req, res) => { 
+app.get(
+  "/viewCourse/:CRN/tutorReservation/tutorInfo/summary/course",
+  userController.checkAuthenticated,
+  (req, res) => {
     res.render("course", {
-      courseName: userModel.getCourseByCRN(req.params.CRN)
+      courseName: userModel.getCourseByCRN(req.params.CRN),
       /*CRN: req.params.CRN*/
-    }); 
+    });
   }
 );
 
 // View grades
-app.get("/grades", userController.checkAuthenticated, (req, res) => {
-  res.render("grades");
-});
+app.get(
+  "/viewCourse/:CRN/grades",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.render("grades", {
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+      role: req.user.role,
+    });
+  }
+);
 
 //File upload
 app.post(
