@@ -78,6 +78,7 @@ const tutorController = require("./Controllers/tutorController.js");
  * Require Validators
  *************************************/
 const userValidator = require("./Validators/userValidator");
+const tutorValidator = require("./Validators/tutorValidator");
 
 /*************************************
  * Require Models
@@ -313,6 +314,7 @@ app.get(
 app.post(
   "/viewCourse/:CRN/tutorReservation/:selectedTutorID",
   userController.checkAuthenticated,
+  tutorValidator.validateReservation,
   (req, res) => {
     if (req.user.role === "student") {
       tutorController.tutorReservation(

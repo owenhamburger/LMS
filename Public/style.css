@@ -585,6 +585,14 @@ select {
   text-align: center;
 }
 
+.notesList {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 300;
+  text-align: left;
+}
+
 .table {
   width: 60%;
   margin-left: auto;
@@ -898,25 +906,25 @@ select {
 }
 
 /* dashboard */
-.dashMainContainer{
+.dashMainContainer {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.card-header{
+.card-header {
   width: 463px;
   height: 60px;
   font-size: 20px;
 }
 
-.list-group-item{
+.list-group-item {
   width: 463px;
   height: 60px;
 }
 
-.viewMore{
+.viewMore {
   width: 463px;
   height: 60px;
   padding-right: 20px;

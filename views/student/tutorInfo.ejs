@@ -115,21 +115,30 @@
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu'></i>
-      <%= courseName.courseName %>
+      <div>
+        <%= courseName.courseName %>
+      </div>
     </div>
     <h1 style="text-align: center; padding-top: 10px;">Schedule an Appointment</h1>
 
     <br><br><br><br>
     <section class="tutorInfoMainContainer">
       <% if(messages.reservationError) { %>
+      <% messages.reservationError.forEach((error) => { %>
       <div class="alert alert-danger" role="alert">
-        <%= messages.reservationError %>
+        <%= error %>
       </div>
-      <br><br><br>
-      <% } %>
+      <br>
+      <% })} %>
 
-      <h6 style=" font-weight: 300;">Note: You must first select a date to display the free slots</h6>
-      <form action="/viewCourse/<%= courseName.CRN %>/tutorReservation/<%= tutorID %>" method="POST">
+      <h5>Notes</h5>
+      <ul class="notesList">
+        <li>You must first select a date to display the free slots</li>
+        <li>No appointments are available on the weekends</li>
+        <li>You can schedule an appointment up to 30 days from now</li>
+      </ul>
+      <!-- <h6 style=" font-weight: 300;">Note: You must first select a date to display the free slots</h6> -->
+      <form action="/viewCourse/<%= courseName.CRN %>/tutorReservation/<%= tutorID %>" method="POST" id="form1">
         <div class="tutorInfo">
           <div class="mb-3">
             <input class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required="" type="date" name="date" id="datePicker">
