@@ -10,6 +10,7 @@ const flash = require("express-flash");
 const methodOverride = require("method-override");
 const path = require("path");
 const fileUpload = require("express-fileupload");
+// const nodemailer = require("nodemailer");
 
 /*************************************
  * Create App
@@ -73,6 +74,7 @@ app.set("views", [
 const userController = require("./Controllers/userController.js");
 const adminController = require("./Controllers/adminController.js");
 const tutorController = require("./Controllers/tutorController.js");
+const emailController = require("./Controllers/emailController.js");
 
 /*************************************
  * Require Validators
@@ -184,6 +186,7 @@ app.post(
   "/register",
   userController.checkNotAuthenticated,
   userValidator.validateUserCreationBody,
+  emailController.sendRegistrationEmail,
   userController.createNewUser
 );
 
@@ -231,6 +234,7 @@ app.get(
 app.post(
   "/viewCourse/:CRN/assessments",
   userController.checkAuthenticated,
+  emailController.sendSubmissionConfirmation,
   userController.submitAssessment
 );
 
@@ -314,6 +318,8 @@ app.get(
 app.post(
   "/viewCourse/:CRN/tutorReservation/:selectedTutorID",
   userController.checkAuthenticated,
+  emailController.sendTutorEmail,
+  emailController.sendStudentEmail,
   tutorValidator.validateReservation,
   (req, res) => {
     if (req.user.role === "student") {
@@ -369,6 +375,7 @@ app.get(
 app.post(
   "/adminViewAssesments/:CRN",
   userController.checkAuthenticated,
+  emailController.sendUploadEmail,
   adminController.uploadAssessment
 );
 
