@@ -166,6 +166,16 @@ function submitAssessment(userID, crn, assessmentFile, submittedFile) {
   return inserted;
 }
 
+function getStudentsByCRN(crn) {
+  const sql = `SELECT users.userid, username, role FROM user_courses join users on users.userid = user_courses.userid where crn = @crn and role = 'student';`;
+  const stmt = db.prepare(sql);
+  const allStudents = stmt.all({
+    crn: crn,
+  });
+
+  return allStudents;
+}
+
 module.exports = {
   createUser,
   getUserByUsername,
@@ -173,6 +183,7 @@ module.exports = {
   getallCourses,
   getUserCourses,
   getCourseByCRN,
+  getStudentsByCRN,
   getUserReservations,
   getSubmittedFile,
   submitAssessment,
