@@ -6,6 +6,16 @@ const tutorSchedule = JSON.parse(tutorScheduleEJS);
 let timeSelector = document.getElementById("timeOptions");
 let datePicker = document.getElementById("datePicker");
 
+const minDate = new Date();
+const maxDate = new Date();
+maxDate.setDate(maxDate.getDate() + 30);
+
+console.log(maxDate, maxDate.getDay());
+
+// Set datepicker limits (between today and 30 days from today)
+datePicker.setAttribute("min", minDate.toISOString().split("T")[0]);
+datePicker.setAttribute("max", maxDate.toISOString().split("T")[0]);
+
 datePicker.addEventListener("change", (event) => {
   // clear current options
   timeSelector.length = 0;

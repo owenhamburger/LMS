@@ -68,6 +68,8 @@ function reserveTutor(userID, tutorID, crn, meetingTime, meetingDate) {
     INSERT INTO Reservations 
     VALUES (@userID, @tutorID, @crn, @meetingTime, @meetingDate)`;
 
+  console.log(userID, tutorID, crn, meetingTime, meetingDate);
+
   const stmt = db.prepare(sql);
   let reserved = {};
   try {
