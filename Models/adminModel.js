@@ -2,18 +2,29 @@
 
 const db = require("./db");
 
-function insertAssessment(crn, assessmentType, filePath, dueDate, postedDate) {
+function insertAssessment(
+  crn,
+  assessmentName,
+  assessmentType,
+  postedDate,
+  dueDate,
+  assessmentFile
+) {
   let created;
-  const sql = `INSERT INTO Course_Assessments VALUES(@crn, @assessmentType, @postedDate, @dueDate, @filePath)`;
+  const sql = `
+  INSERT INTO Course_Assessments 
+  VALUES(@crn, @assessmentName, @assessmentType, @postedDate, @dueDate, @assessmentFile)
+  `;
   const stmt = db.prepare(sql);
 
   try {
     stmt.run({
       crn,
+      assessmentName,
       assessmentType,
       postedDate,
       dueDate,
-      filePath,
+      assessmentFile,
     });
     created = true;
   } catch (err) {

@@ -1,21 +1,19 @@
 "use strict";
 
+const fs = require("fs");
+
 /*************************************
  * Require Models
  *************************************/
 const userModel = require("../Models/userModel");
 const adminModel = require("../Models/adminModel");
-const { func } = require("joi");
 
 function uploadAssessment(req, res) {
-  if (!req.files || Object.keys(req.files).length === 0) {
+  if (!req.file || Object.keys(req.file).length === 0) {
     req.flash("fileUploadFailure", "Please select a file to upload");
     res.redirect(`/adminViewAssesments/${req.params.CRN}`);
   } else {
-    //Store the name and path of the inputfile
-    const file = req.files.inputFile;
-    const path = __dirname + "/../public/files/" + file.name;
-
+    // Set up data to store in database
     const postedDate = +new Date();
     const myDate = req.body.dueDate.split("-");
     const dueDate = new Date(
@@ -24,31 +22,30 @@ function uploadAssessment(req, res) {
       parseInt(myDate[2])
     ).getTime();
 
-    const assessmentType = req.body.assessmentType;
+    const assessmentName = req.body.assessmentName.toLowerCase();
+    const assessmentType = req.body.assessmentType.toLowerCase();
 
     const assessmentInserted = adminModel.insertAssessment(
       req.params.CRN,
+      assessmentName,
       assessmentType,
-      file.name,
+      postedDate,
       dueDate,
-      postedDate
+      req.file.path
     );
-
-    if (assessmentInserted) {
-      //use the mv function to store the file on the server
-      file.mv(path, (err) => {
-        if (err) {
-          console.log("Unable to upload file:");
-          console.log(err);
-          req.flash("fileUploadFailure", "File not uploaded successfully");
-        } else {
-          console.log("File uploaded successfully");
-          req.flash("fileUploadSuccess", "File uploaded successfully");
-        }
-        return res.redirect(`/adminViewAssesments/${req.params.CRN}`);
+    if (!assessmentInserted) {
+      // delete file from server
+      fs.unlink(req.file.path, (err) => {
+        if (err) throw err;
       });
+      req.flash(
+        "fileUploadFailure",
+        "File not uploaded successfully, a file is already uploaded for the selected assignment type and name"
+      );
+      return res.redirect(`/adminViewAssesments/${req.params.CRN}`);
     } else {
-      req.flash("fileUploadFailure", "File is already uploaded");
+      console.log("File uploaded successfully");
+      req.flash("fileUploadSuccess", "File uploaded successfully");
       return res.redirect(`/adminViewAssesments/${req.params.CRN}`);
     }
   }

@@ -10,6 +10,8 @@ const flash = require("express-flash");
 const methodOverride = require("method-override");
 const path = require("path");
 const fileUpload = require("express-fileupload");
+const multer = require("multer");
+const crypto = require("crypto");
 
 /*************************************
  * Create App
@@ -56,8 +58,45 @@ app.use(
   })
 );
 
-//Enable file upload
-app.use(fileUpload());
+// Enable File Upload
+const assessmentMulter = multer({
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      cb(
+        null,
+        `./Files/${req.params.CRN}/assessments/${req.body.assessmentType}`
+      );
+    },
+
+    filename(req, file, cb) {
+      // Generate a random name
+      const randomName = crypto.randomBytes(15).toString("hex");
+
+      // Parse the extension from the file's original name
+      const [extension] = file.originalname.split(".").slice(-1);
+
+      // Now the random name preserves the file extension
+      cb(null, `${randomName}.${extension}`);
+    },
+  }),
+  fileFilter(req, file, cb) {
+    if (!req.session && req.session.role !== "admin") {
+      return cb(null, false); // reject
+    }
+    return cb(null, true);
+    // if (file.mimetype.startsWith("image/")) {
+    //   return cb(null, true); // accept the file
+    // } else {
+    //   return cb(null, false); // reject the file
+    // }
+  },
+});
+
+// const assessmentMulter = multer({
+//   dest: `./Files/1/assessments/homework`,
+// });
+
+// app.use(fileUpload());
 
 app.set("view engine", "ejs");
 app.set("views", [
@@ -93,7 +132,7 @@ const tutorModel = require("./Models/tutorModel");
 
 app.get("/", userController.checkAuthenticated, (req, res) => {
   // res.redirect("./public/index")
-  if (req.user.role == "instructor") {
+  if (req.user.role == "admin") {
     res.render("adminDashboard");
   } else {
     res.render("dashboard");
@@ -164,6 +203,14 @@ app.get(
       courseName: userModel.getCourseByCRN(req.params.CRN),
     });
   }
+);
+
+// Admin file upload
+app.post(
+  "/adminViewAssesments/:CRN",
+  userController.checkAuthenticated,
+  assessmentMulter.single("inputFile"),
+  adminController.uploadAssessment
 );
 
 //Student - View Assesments by CRN
@@ -363,13 +410,6 @@ app.get(
       role: req.user.role,
     });
   }
-);
-
-//File upload
-app.post(
-  "/adminViewAssesments/:CRN",
-  userController.checkAuthenticated,
-  adminController.uploadAssessment
 );
 
 module.exports = app;

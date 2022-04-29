@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS User_Courses (
     CRN TEXT,
     courseName TEXT NOT NULL,
 
+    PRIMARY KEY (userID, CRN)
+
     FOREIGN KEY(userID) REFERENCES Users(userID)
         ON DELETE CASCADE,
     
@@ -30,13 +32,14 @@ CREATE TABLE IF NOT EXISTS User_Courses (
 
 CREATE TABLE IF NOT EXISTS Course_Assessments (
     CRN TEXT,
+    assessmentName TEXT,
     assessmentType TEXT,
     postedDate INT,
     dueDate INT,
-    assessmentFile TEXT,
+    assessmentFile TEXT UNIQUE,
     -- submittedFile TEXT,
 
-    PRIMARY KEY(CRN, assessmentType, assessmentFile),
+    PRIMARY KEY(CRN, assessmentName, assessmentType),
     FOREIGN KEY(CRN) REFERENCES Courses(CRN)    
 );
 
@@ -44,12 +47,14 @@ CREATE TABLE IF NOT EXISTS User_Assessments (
     userID TEXT,
     CRN TEXT,
     -- assessmentType TEXT,
-    -- postedDate INT,
+    postedDate INT,
     -- dueDate INT,
+    assessmentName TEXT,
+    assessmentType TEXT,
     assessmentFile TEXT,
-    submittedFile TEXT,
+    submittedFile TEXT UNIQUE,
 
-    PRIMARY KEY(userID, CRN, assessmentFile, submittedFile),
+    PRIMARY KEY(userID, CRN, assessmentName, assessmentType),
     FOREIGN KEY(userID) REFERENCES users(userID),
     FOREIGN KEY(CRN) REFERENCES Courses(CRN)    
 );
