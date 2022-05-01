@@ -245,7 +245,7 @@ app.post(
   adminController.uploadAssessment
 );
 
-// make files from "Files" folder accessible
+// make files from "Files" folder accessible (assessments)
 app.get(
   "/files/:CRN/assessments/:type/:file",
   userController.checkAuthenticated,
@@ -253,6 +253,18 @@ app.get(
     res.sendFile(
       __dirname +
         `/Files/${req.params.CRN}/assessments/${req.params.type}/${req.params.file}`
+    );
+  }
+);
+
+// make files from "Files" folder accessible (submissions)
+app.get(
+  "/files/:CRN/submissions/:type/:file",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.sendFile(
+      __dirname +
+        `/Files/${req.params.CRN}/submissions/${req.params.type}/${req.params.file}`
     );
   }
 );
