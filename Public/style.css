@@ -913,12 +913,6 @@ select {
   justify-content: center;
 }
 
-.card-header {
-  width: 463px;
-  height: 60px;
-  font-size: 20px;
-}
-
 .list-group-item {
   width: 463px;
   height: 60px;
