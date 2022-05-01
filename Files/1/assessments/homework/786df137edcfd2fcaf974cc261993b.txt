@@ -1,3 +1,0 @@
-- file upload
-- grading
-- make sure that student reserves for only registered courses.

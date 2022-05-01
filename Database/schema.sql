@@ -46,13 +46,12 @@ CREATE TABLE IF NOT EXISTS Course_Assessments (
 CREATE TABLE IF NOT EXISTS User_Assessments (
     userID TEXT,
     CRN TEXT,
-    -- assessmentType TEXT,
     postedDate INT,
-    -- dueDate INT,
     assessmentName TEXT,
     assessmentType TEXT,
-    assessmentFile TEXT,
+    -- assessmentFile TEXT,
     submittedFile TEXT UNIQUE,
+    originalFileName TEXT,
 
     PRIMARY KEY(userID, CRN, assessmentName, assessmentType),
     FOREIGN KEY(userID) REFERENCES users(userID),

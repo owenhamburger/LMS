@@ -14,7 +14,7 @@ const transport = nodemailer.createTransport({
 });
 
 //Sends an email on registration
-function sendRegistrationEmail(req, res, next) {
+function sendRegistrationEmail(req, res) {
   console.log("In registration email controller");
   const mailOptions = {
     from: "lmsnoreply77@gmail.com",
@@ -30,7 +30,8 @@ function sendRegistrationEmail(req, res, next) {
     }
     console.log(`Message sent: ${info.response}`);
   });
-  next();
+  return res.status(201).redirect("/login");
+  // next();
 }
 
 //Sends an email on file upload from instructor

@@ -128,12 +128,14 @@ function getUserReservations(userID, crn) {
 
 function getSubmittedFile(userID, crn) {
   const sql = `
-  SELECT ca.CRN, ca.assessmentType, ca.postedDate, ca.dueDate, ca.assessmentFile, User_Assessments.submittedFile
+  SELECT ca.CRN, ca.assessmentType, ca.assessmentName, ca.postedDate, ca.dueDate, ca.assessmentFile, User_Assessments.originalFileName
   FROM Course_Assessments as ca
   LEFT JOIN User_Assessments ON
   userID = @userID AND
   User_Assessments.CRN = ca.CRN 
-  AND User_Assessments.assessmentFile = ca.assessmentFile
+  AND user_assessments.assessmentName = ca.assessmentName 
+  AND user_assessments.assessmentType = ca.assessmentType 
+  WHERE ca.CRN = @crn
   `;
 
   const submittedFile = db.prepare(sql).all({
@@ -144,18 +146,32 @@ function getSubmittedFile(userID, crn) {
   return submittedFile;
 }
 
-function submitAssessment(userID, crn, assessmentFile, submittedFile) {
-  const sql = `INSERT INTO User_Assessments VALUES (@userID, @crn, @assessmentFile, @submittedFile)`;
+function submitAssessment(
+  userID,
+  crn,
+  postedDate,
+  assessmentName,
+  assessmentType,
+  submittedFile,
+  originalFileName
+) {
+  const sql = `
+  INSERT INTO User_Assessments 
+  VALUES (@userID, @crn, @postedDate, @assessmentName, @assessmentType, @submittedFile, @originalFileName)
+  `;
 
-  console.log("Model", userID, crn, assessmentFile, submittedFile);
+  // console.log("Model", userID, crn, assessmentFile, submittedFile);
 
   let inserted;
   try {
     db.prepare(sql).run({
       userID,
       crn,
-      assessmentFile,
+      postedDate,
+      assessmentName,
+      assessmentType,
       submittedFile,
+      originalFileName,
     });
     inserted = true;
   } catch (err) {

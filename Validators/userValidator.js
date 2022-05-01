@@ -32,11 +32,12 @@ const createUserSchema = joi.object({
 
   email: joi
     .string()
-    .email({
-      minDomainSegments: 2,
-      maxDomainSegments: 3,
-      tlds: { allow: ["edu"] },
-    })
+    .email()
+    // .email({
+    //   minDomainSegments: 2,
+    //   maxDomainSegments: 3,
+    //   tlds: { allow: ["edu"] },
+    // })
     .label("Email"),
 
   firstName: joi.string().min(1).token().required().label("First Name"),

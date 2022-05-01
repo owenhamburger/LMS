@@ -12,6 +12,7 @@ const path = require("path");
 const fileUpload = require("express-fileupload");
 const multer = require("multer");
 const crypto = require("crypto");
+var fs = require("fs");
 // const nodemailer = require("nodemailer");
 
 /*************************************
@@ -59,7 +60,7 @@ app.use(
   })
 );
 
-// Enable File Upload
+// Enable File Upload (admin -- assessments)
 const assessmentMulter = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
@@ -85,17 +86,46 @@ const assessmentMulter = multer({
       return cb(null, false); // reject
     }
     return cb(null, true);
-    // if (file.mimetype.startsWith("image/")) {
-    //   return cb(null, true); // accept the file
-    // } else {
-    //   return cb(null, false); // reject the file
-    // }
   },
 });
 
-// const assessmentMulter = multer({
-//   dest: `./Files/1/assessments/homework`,
-// });
+// Enable File Upload (student -- submission)
+const submitMulter = multer({
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      console.log("ASSES:", req.body);
+      const assessmentType = req.body.assessment.split("/")[3];
+      const assessmentName = req.body.assessment.split("/")[5];
+
+      if (
+        !fs.existsSync(
+          `./Files/${req.params.CRN}/submissions/${assessmentType}/${assessmentName}`
+        )
+      ) {
+        fs.mkdirSync(
+          `./Files/${req.params.CRN}/submissions/${assessmentType}/${assessmentName}`
+        );
+      }
+
+      cb(
+        null,
+        `./Files/${req.params.CRN}/submissions/${assessmentType}/${assessmentName}`
+      );
+    },
+
+    filename(req, file, cb) {
+      const randomName = crypto.randomBytes(15).toString("hex");
+      const [extension] = file.originalname.split(".").slice(-1);
+      cb(null, `${randomName}.${extension}`);
+    },
+  }),
+  fileFilter(req, file, cb) {
+    if (!req.session && req.session.role !== "student") {
+      return cb(null, false); // reject
+    }
+    return cb(null, true);
+  },
+});
 
 // app.use(fileUpload());
 
@@ -215,6 +245,18 @@ app.post(
   adminController.uploadAssessment
 );
 
+// make files from "Files" folder accessible
+app.get(
+  "/files/:CRN/assessments/:type/:file",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.sendFile(
+      __dirname +
+        `/Files/${req.params.CRN}/assessments/${req.params.type}/${req.params.file}`
+    );
+  }
+);
+
 //Student - View Assesments by CRN
 app.get("/viewCourse/:CRN", userController.checkAuthenticated, (req, res) => {
   res.render("viewCourse", {
@@ -233,8 +275,8 @@ app.post(
   "/register",
   userController.checkNotAuthenticated,
   userValidator.validateUserCreationBody,
-  emailController.sendRegistrationEmail,
-  userController.createNewUser
+  userController.createNewUser,
+  emailController.sendRegistrationEmail
 );
 
 //Admin & Student
@@ -281,6 +323,7 @@ app.get(
 app.post(
   "/viewCourse/:CRN/assessments",
   userController.checkAuthenticated,
+  submitMulter.single("inputFile"),
   emailController.sendSubmissionConfirmation,
   userController.submitAssessment
 );

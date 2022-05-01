@@ -1,6 +1,7 @@
 "use strict";
 
 const argon2 = require("argon2");
+const fs = require("fs");
 
 /*************************************
  * Require Models
@@ -8,7 +9,7 @@ const argon2 = require("argon2");
 const userModel = require("../Models/userModel");
 
 // Create new user
-async function createNewUser(req, res) {
+async function createNewUser(req, res, next) {
   const { email, username, firstName, lastName, password } = req.body;
 
   const created = await userModel.createUser(
@@ -23,7 +24,7 @@ async function createNewUser(req, res) {
   // account was succesfully created
   if (created) {
     req.flash("accountCreated", "Account Created Successfully!");
-    return res.status(201).redirect("/login");
+    // return res.status(201).redirect("/login");
   } else {
     const conflictedUser = userModel.getUserByUsername(username);
     if (conflictedUser) {
@@ -32,8 +33,10 @@ async function createNewUser(req, res) {
       req.flash("emailConflict", "Email already taken");
     }
 
-    res.redirect("/register");
+    return res.redirect("/register");
   }
+
+  next();
 }
 
 function checkAuthenticated(req, res, next) {
@@ -81,46 +84,48 @@ function viewTaughtCourses(req, res) {
 }
 
 function submitAssessment(req, res) {
-  if (!req.files || Object.keys(req.files).length === 0) {
+  if (!req.file || Object.keys(req.file).length === 0) {
     req.flash("fileUploadFailure", "Please select a file to upload");
     return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
-    // res.render("assessments", {
-    //   currentAssessments: userModel.getSubmittedFile(
-    //     req.user.userID,
-    //     req.params.CRN
-    //   ),
-    //   CRN: req.params.CRN,
-    // });
   } else {
-    const file = req.files.inputFile;
-    const path = __dirname + "/../public/files/studentSubmissions/" + file.name;
+    console.log("BODY", req.file.path);
+    const postedDate = +new Date();
+    const assessmentType = req.body.assessment.split("/")[3].toLowerCase();
+    const assessmentName = req.body.assessment.split("/")[5].toLowerCase();
+    const originalFileName = req.file.originalname;
 
-    const inserted = userModel.submitAssessment(
+    const assessmentInserted = userModel.submitAssessment(
       req.user.userID,
       req.params.CRN,
-      req.body.assessment,
-      file.name
+      postedDate,
+      assessmentName,
+      assessmentType,
+      req.file.path,
+      originalFileName
     );
 
-    if (inserted) {
-      file.mv(path, (err) => {
-        if (err) {
-          console.log("Unable to upload file:");
-          console.log(err);
-          req.flash("fileUploadFailure", "File not uploaded successfully");
-        } else {
-          console.log("File uploaded successfully");
-          req.flash("fileUploadSuccess", "File uploaded successfully");
-        }
-        return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
+    if (!assessmentInserted) {
+      fs.unlink(req.file.path, (err) => {
+        if (err) throw err;
       });
-    } else {
       req.flash(
         "fileUploadFailure",
-        "File already uploaded for assessment (implementation soon) "
+        "File not uploaded successfully, a file is already submitted for the selected assignment type and name"
       );
       return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
+    } else {
+      console.log("File uploaded successfully");
+      req.flash("fileUploadSuccess", "File uploaded successfully");
     }
+    return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
+
+    // } else {
+    //   req.flash(
+    //     "fileUploadFailure",
+    //     "File already uploaded for assessment (implementation soon) "
+    //   );
+    //   return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
+    // }
   }
 }
 
