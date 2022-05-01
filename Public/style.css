@@ -923,3 +923,8 @@ select {
   height: 60px;
   padding-right: 20px;
 }
+
+.separation {
+  height: 50px;
+  width: 100px;
+}
