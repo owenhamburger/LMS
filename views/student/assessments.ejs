@@ -153,30 +153,28 @@
 
         <div class="form-group row">
           <div class="separation">
+            <label for="assessment" class="col-sm-2 col-form-label">Assessment</label>
+          </div>
+          <div class="separation2">
+            <div class="col-sm-10">
+              <select name="assessment" id="assessment" class="form-select" required>
+                <% if (currentAssessments) { %>
+                <% currentAssessments.forEach(assessment => { %>
+                <option value="<%= assessment.assessmentFile + '/' +  assessment.assessmentName%>"><%= assessment.assessmentName %></option>
+                <% })} %>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="separation">
             <label for="file" class="col-sm-2 col-form-label">File</label>
           </div>
-          <div class="separation2"></div>
-          <div class="col-sm-10">
-            <input type="file" class="form-control-file" id="file" name="inputFile">
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="assessment" class="col-sm-2 col-form-label">Assessment</label>
-          <div class="col-sm-10">
-            <select name="assessment" id="assessment" class="form-select" required>
-              <% if (currentAssessments) { %>
-              <% currentAssessments.forEach(assessment => { %>
-              <option value="<%= assessment.assessmentFile + '/' +  assessment.assessmentName%>"><%= assessment.assessmentName %></option>
-              <% })} %>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="file" class="col-sm-2 col-form-label">File</label>
-          <div class="col-sm-10">
-            <input type="file" class="form-control-file" id="file" name="inputFile">
+          <div class="separation2">
+            <div class="col-sm-10">
+              <input type="file" class="form-control-file" id="file" name="inputFile">
+            </div>
           </div>
         </div>
 
