@@ -132,11 +132,20 @@ function getSubmittedFile(userID, crn) {
   FROM Course_Assessments as ca
   LEFT JOIN User_Assessments ON
   userID = @userID AND
-  User_Assessments.CRN = ca.CRN 
-  AND user_assessments.assessmentName = ca.assessmentName 
-  AND user_assessments.assessmentType = ca.assessmentType 
+  User_Assessments.CRN = ca.CRN
+  AND user_assessments.assessmentName = ca.assessmentName
+  AND user_assessments.assessmentType = ca.assessmentType
   WHERE ca.CRN = @crn
   `;
+  // const sql = `
+  // SELECT ca.CRN, ca.assessmentType, ca.postedDate, ca.dueDate, ca.assessmentFile, User_Assessments.originalFileName
+  // FROM Course_Assessments as ca
+  // LEFT JOIN User_Assessments ON
+  // userID = @userID AND
+  // User_Assessments.CRN = ca.CRN
+  // AND user_assessments.assessmentType = ca.assessmentType
+  // WHERE ca.CRN = @crn
+  // `;
 
   const submittedFile = db.prepare(sql).all({
     userID,
