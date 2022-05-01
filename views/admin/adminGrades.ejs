@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title> LMS</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="/../Public/style_course.css">
+  <link rel="stylesheet" href="/../Public/style.css">
+  <!-- Boxiocns CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+</head>
+
+<body>
+  <div class="sidebar close_1">
+    <div class="logo-details">
+      <i class='bx bxs-chalkboard'></i>
+      <span class="logo_name">LMS</span>
+    </div>
+    <ul class="nav-links">
+      <li>
+        <a href="#">
+          <i class='bx bxs-dashboard'></i>
+          <span class="link_name">Dashboard</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/">Dashboard</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="/courses">
+            <i class='bx bx-collection'></i>
+            <span class="link_name">Courses</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="/courses">Courses</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <li>
+        <a href="/viewCourse/<%= courseName.CRN %>/assessments">
+          <i class='bx bx-task'></i>
+          <span class="link_name">Assesments</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/assessments">Assesments</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/viewCourse/<%= courseName.CRN %>/materials">
+          <i class='bx bx-notepad'></i>
+          <span class="link_name">Materials</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/materials">Materials</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/viewCourse/<%= courseName.CRN %>/grades">
+          <i class='bx bx-bar-chart'></i>
+          <span class="link_name">Grades</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/grades">Grades</a></li>
+        </ul>
+      </li>
+
+      <% if (role === "student") { %>
+      <li>
+        <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation">
+          <i class='bx bx-calendar'></i>
+          <span class="link_name">Tutor Reservation</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/tutorReservation">Tutor Reservation</a></li>
+        </ul>
+      </li>
+
+      <% } %>
+
+
+      <li>
+        <a href="/logout">
+          <i class='bx bx-log-out'></i>
+          <span class="link_name">Log Out</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/logout">Log Out</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+  <section class="home-section">
+    <div class="home-content">
+      <i class='bx bx-menu'></i>
+      <%= courseName.courseName %>
+    </div>
+    <h1 style="text-align: center;padding-top: 10px;">Grades</h1>
+    <div class="assesmentMainSmallContainer">
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Assignment Type</th>
+            <th scope="col">Assignment</th>
+            <th scope="col">Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="2">Quizzes</td>
+            <td>q1</td>
+            <td>90</td>
+          </tr>
+
+          <tr>
+            <td>q2</td>
+            <td>100</td>
+          </tr>
+
+          <tr>
+            <td rowspan="1">Homeworks</td>
+            <td>d</td>
+            <td>1</td>
+          </tr>
+
+          <tr>
+            <td rowspan="1">Exams</td>
+            <td>d</td>
+            <td>1</td>
+          </tr>
+
+        </tbody>
+      </table>
+  </section>
+  <!-- <div class="home-content"> -->
+  <h1 style="text-align: center;padding-top: 10px;"></h1>
+  <!-- </section> -->
+
+  <script src="/../Public/sidebar.js" defer></script>
+
+  <script>
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
+
+</body>
+
+</html>
