@@ -25,50 +25,62 @@
           <span class="link_name">Dashboard</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Dashboard</a></li>
+          <li><a class="link_name" href="/">Dashboard</a></li>
         </ul>
       </li>
       <li>
         <div class="iocn-link">
-          <a href="/adminCourses">
+          <a href="/courses">
             <i class='bx bx-collection'></i>
             <span class="link_name">Courses</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Courses</a></li>
+            <li><a class="link_name" href="/course">Courses</a></li>
           </ul>
         </div>
       </li>
 
       <li>
-        <a href="/adminViewCourse/<%= courseName.CRN %>/assessments">
+        <a href="/viewCourse/<%= courseName.CRN %>/assessments">
           <i class='bx bx-task'></i>
           <span class="link_name">Assesments</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Assesments</a></li>
+          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/assessments">Assesments</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/adminViewCourse/<%= courseName.CRN %>/materials">
+        <a href="/viewCourse/<%= courseName.CRN %>/materials">
           <i class='bx bx-notepad'></i>
           <span class="link_name">Materials</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Materials</a></li>
+          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/materials">Materials</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/adminViewCourse/<%= courseName.CRN %>/grades">
+        <a href="/viewCourse/<%= courseName.CRN %>/grades">
           <i class='bx bx-bar-chart'></i>
           <span class="link_name">Grades</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Grades</a></li>
+          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/grades">Grades</a></li>
         </ul>
       </li>
+
+      <% if (role === "student") { %>
+      <li>
+        <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation">
+          <i class='bx bx-calendar'></i>
+          <span class="link_name">Tutor Reservation</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/tutorReservation">Tutor Reservation</a></li>
+        </ul>
+      </li>
+      <% } %>
 
       <li>
         <a href="/logout">
@@ -76,7 +88,7 @@
           <span class="link_name">Log Out</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Log Out</a></li>
+          <li><a class="link_name" href="/logout">Log Out</a></li>
         </ul>
       </li>
 
