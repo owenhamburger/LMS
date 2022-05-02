@@ -164,9 +164,13 @@ const tutorModel = require("./Models/tutorModel");
 app.get("/", userController.checkAuthenticated, (req, res) => {
   // res.redirect("./public/index")
   if (req.user.role == "admin") {
-    res.render("adminDashboard");
+    res.render("adminDashboard", {
+      profile: adminModel.getAdminInfo(req.user.userID),
+    });
   } else {
-    res.render("dashboard");
+    res.render("dashboard", {
+      profile: adminModel.getAdminInfo(req.user.userID),
+    });
   }
 });
 
@@ -221,7 +225,7 @@ app.get(
 
 //Admin - View Assesments by CRN
 app.get(
-  "/adminViewAssesments/:CRN",
+  "/adminViewCourse/:CRN/adminViewAssesments",
   userController.checkAuthenticated,
   adminController.validateAdmin,
   (req, res) => {
@@ -233,21 +237,29 @@ app.get(
   }
 );
 
-app.get("/adminMaterials/:CRN", userController.checkAuthenticated, (req, res) => {
-  res.render("adminMaterials", {
-    courseName: userModel.getCourseByCRN(req.params.CRN),
-    CRN: req.params.CRN,
-    role: req.user.role
-  })
-})
+app.get(
+  "/adminViewCourse/:CRN/adminMaterials",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.render("adminMaterials", {
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+      CRN: req.params.CRN,
+      role: req.user.role,
+    });
+  }
+);
 
-app.get("/adminGrades/:CRN", userController.checkAuthenticated, (req, res) => {
-  res.render("adminGrades", {
-    courseName: userModel.getCourseByCRN(req.params.CRN),
-    CRN: req.params.CRN,
-    role: req.user.role
-  })
-})
+app.get(
+  "/adminViewCourse/:CRN/adminGrades",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.render("adminGrades", {
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+      CRN: req.params.CRN,
+      role: req.user.role,
+    });
+  }
+);
 
 //Admin - View Student submissions for a particular assessment
 app.get(
@@ -290,7 +302,7 @@ app.get(
   (req, res) => {
     res.sendFile(
       __dirname +
-      `/Files/${req.params.CRN}/assessments/${req.params.type}/${req.params.file}`
+        `/Files/${req.params.CRN}/assessments/${req.params.type}/${req.params.file}`
     );
   }
 );

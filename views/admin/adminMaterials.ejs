@@ -41,32 +41,32 @@
       </li>
 
       <li>
-        <a href="/adminViewCourse/<%= courseName.CRN %>/assessments">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/adminViewAssesments">
           <i class='bx bx-task'></i>
           <span class="link_name">Assesments</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/assessments">Assesments</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/adminViewAssesments">Assesments</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/adminViewCourse/<%= courseName.CRN %>/materials">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/adminMaterials">
           <i class='bx bx-notepad'></i>
           <span class="link_name">Materials</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/materials">Materials</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/adminMaterials">Materials</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/adminViewCourse/<%= courseName.CRN %>/grades">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/adminGrades">
           <i class='bx bx-bar-chart'></i>
           <span class="link_name">Grades</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/grades">Grades</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/adminGrades">Grades</a></li>
         </ul>
       </li>
 
@@ -105,12 +105,28 @@
         </tbody>
       </table>
     </div>
-    <!-- </div> -->
-    <!-- </section> -->
-    <!-- </section> -->
-    <!-- </section> -->
-    <!-- <div class="home-content"> -->
-    <!-- <h1 style="text-align: center;padding-top: 10px;"></h1> -->
+
+    <h3 style="text-align: center;padding-top: 10px; padding-bottom: 30px;">Upload new Material</h3>
+
+    <form action="/adminViewCourse/<%= CRN %>/adminMaterials" method="POST" enctype="multipart/form-data">
+
+      <div class="form-group row">
+        <label for="assignmentName" class="col-sm-2 col-form-label">Material Name</label>
+        <div class="col-sm-10">
+          <input type="text" name="assessmentName">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="file" class="col-sm-2 col-form-label">File</label>
+        <div class="col-sm-10">
+          <input type="file" class="form-control-file" id="file" name="inputFile">
+        </div>
+      </div>
+
+      <button style="margin-bottom: 10px;" class="btn btn-primary" type="submit">Upload</button>
+    </form>
+
   </section>
 
   <script src="/../Public/sidebar.js" defer></script>

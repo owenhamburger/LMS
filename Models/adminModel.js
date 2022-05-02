@@ -2,6 +2,20 @@
 
 const db = require("./db");
 
+function getAdminInfo(userid) {
+  const sql = `
+  SELECT *
+  FROM users
+  WHERE userid = @userid
+  `;
+
+  const profile = db.prepare(sql).get({
+    userid,
+  });
+
+  return profile;
+}
+
 function insertAssessment(
   crn,
   assessmentName,
@@ -95,6 +109,7 @@ function updateGrade(userID, crn, assessmentName, assessmentType, grade) {
 }
 
 module.exports = {
+  getAdminInfo,
   insertAssessment,
   getCourseAssessments,
   viewSubmissions,

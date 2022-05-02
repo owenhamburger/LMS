@@ -104,16 +104,18 @@
           <div class="card-header">
             Student Profile
           </div>
+          <% if (profile) { %>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Student Name </li>
-            <li class="list-group-item">Username </li>
-            <li class="list-group-item">Email: </li>
+            <li class="list-group-item">Name: <%= profile.firstName + " " + profile.lastName %> </li>
+            <li class="list-group-item">Username: <%= profile.username %> </li>
+            <li class="list-group-item">Email: <%= profile.email %></li>
           </ul>
+          <% } %>
           <div class="viewMore">
             <div class="viewContainer">
-                <a href="/logout">
-                  <button type="button" class="btn btn-primary">Log Out</button>
-                </a>
+              <a href="/logout">
+                <button type="button" class="btn btn-primary">Log Out</button>
+              </a>
             </div>
           </div>
         </div>

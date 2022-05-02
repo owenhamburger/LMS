@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <title> LMS</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="../Public/style_course.css">
-  <link rel="stylesheet" href="../Public/style.css">
+  <link rel="stylesheet" href="/../Public/style_course.css">
+  <link rel="stylesheet" href="/../Public/style.css">
   <!-- Boxiocns CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
@@ -41,32 +41,32 @@
       </li>
 
       <li>
-        <a href="/adminViewAssesments/<%= CRN %>">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/adminViewAssesments">
           <i class='bx bx-task'></i>
           <span class="link_name">Assesments</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/adminViewAssesments/<%= CRN %>">Assesments</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/adminViewAssesments">Assesments</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/adminViewAssesments/<%= CRN %>materials">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/adminMaterials">
           <i class='bx bx-notepad'></i>
           <span class="link_name">Materials</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/adminViewAssesments/<%= CRN %>materials">Materials</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/adminMaterials">Materials</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/adminViewCourse/<%= courseName.CRN %>/grades">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/adminGrades">
           <i class='bx bx-bar-chart'></i>
-          <span class="link_name">Grade Book</span>
+          <span class="link_name">Grades</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/grades">Grade Book</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/adminGrades">Grades</a></li>
         </ul>
       </li>
 
@@ -173,7 +173,7 @@
     </div>
 
   </section>
-  <script src="../Public/sidebar.js" defer></script>
+  <script src="/../Public/sidebar.js" defer></script>
   <script>
     if (window.history.replaceState) {
       window.history.replaceState(null, null, window.location.href);
