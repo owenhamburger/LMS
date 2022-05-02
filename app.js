@@ -93,7 +93,6 @@ const assessmentMulter = multer({
 const submitMulter = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
-      console.log("ASSES:", req.body);
       const assessmentType = req.body.assessment.split("/")[3];
       const assessmentName = req.body.assessment.split("/")[5];
 
@@ -222,19 +221,26 @@ app.get(
 
 //Admin - View Student submissions for a particular assessment
 app.get(
-  "/adminViewAssesments/:CRN/:assessment",
+  "/adminViewAssesments/:CRN/:assessmentName/:assessmentType",
   userController.checkAuthenticated,
   (req, res) => {
-    console.log(req.params);
     res.render("viewSubmissions", {
       submissions: adminModel.viewSubmissions(
         req.params.CRN,
-        req.params.assessment
+        req.params.assessmentName,
+        req.params.assessmentType
       ),
       CRN: req.params.CRN,
       courseName: userModel.getCourseByCRN(req.params.CRN),
     });
   }
+);
+
+// Update grade for a student submission
+app.post(
+  "/updateGrade",
+  userController.checkAuthenticated,
+  adminController.updateGrade
 );
 
 // Admin file upload
@@ -259,12 +265,12 @@ app.get(
 
 // make files from "Files" folder accessible (submissions)
 app.get(
-  "/files/:CRN/submissions/:type/:file",
+  "/files/:CRN/submissions/:type/:name/:file",
   userController.checkAuthenticated,
   (req, res) => {
     res.sendFile(
       __dirname +
-        `/Files/${req.params.CRN}/submissions/${req.params.type}/${req.params.file}`
+        `/Files/${req.params.CRN}/submissions/${req.params.type}/${req.params.name}/${req.params.file}`
     );
   }
 );
@@ -346,18 +352,6 @@ app.get(
   userController.checkAuthenticated,
   (req, res) => {
     res.render("materials", {
-      courseName: userModel.getCourseByCRN(req.params.CRN),
-      role: req.user.role,
-    });
-  }
-);
-
-// View chat page
-app.get(
-  "/viewCourse/:CRN/chat",
-  userController.checkAuthenticated,
-  (req, res) => {
-    res.render("chat", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
       role: req.user.role,
     });
@@ -469,6 +463,21 @@ app.get(
     res.render("grades", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
       role: req.user.role,
+      homeworkGrades: userModel.getGradesOfType(
+        req.user.userID,
+        req.params.CRN,
+        "homework"
+      ),
+      quizGrades: userModel.getGradesOfType(
+        req.user.userID,
+        req.params.CRN,
+        "quiz"
+      ),
+      examGrades: userModel.getGradesOfType(
+        req.user.userID,
+        req.params.CRN,
+        "exam"
+      ),
     });
   }
 );

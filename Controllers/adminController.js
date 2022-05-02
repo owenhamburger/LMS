@@ -52,16 +52,37 @@ function uploadAssessment(req, res) {
 }
 
 function viewSubmissions(req, res) {
+  console.log(req.params);
   res.render("viewSubmissions", {
     submissions: adminModel.viewSubmissions(
       req.params.CRN,
-      req.params.assessmentFile
+      req.params.assessmentName,
+      req.params.assessmentType
     ),
     CRN: req.params.CRN,
   });
 }
 
+function updateGrade(req, res) {
+  console.log("REQ FROM CLIENT:", req.body);
+  const updatedGrade = adminModel.updateGrade(
+    req.body.userID,
+    req.body.CRN,
+    req.body.assessmentName,
+    req.body.assessmentType,
+    parseFloat(req.body.grade)
+  );
+
+  if (!updatedGrade) {
+    console.log("couldn't update grade");
+  }
+  return res.redirect(
+    `/adminViewAssesments/${req.body.CRN}/${req.body.assessmentName}/${req.body.assessmentType}`
+  );
+}
+
 module.exports = {
   uploadAssessment,
   viewSubmissions,
+  updateGrade,
 };

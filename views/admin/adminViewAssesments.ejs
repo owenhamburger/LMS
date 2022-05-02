@@ -110,7 +110,7 @@
             <td><%= new Date(assessment.postedDate).toLocaleString().split(',')[0] %></td>
             <td><%= new Date(assessment.dueDate).toLocaleString().split(',')[0] %></td>
             <!-- <td><%= assessment.dueDate %></td> -->
-            <td><a href="/adminViewAssesments/<%= CRN %>/<%= assessment.assessmentFile %>">View Submissions</a></td>
+            <td><a href="/adminViewAssesments/<%= CRN %>/<%= assessment.assessmentName %>/<%= assessment.assessmentType %>">View Submissions</a></td>
             <% })} %>
           </tr>
         </tbody>
