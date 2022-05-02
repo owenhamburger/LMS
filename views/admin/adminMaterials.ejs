@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <title> LMS</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="/../Public/style_course.css">
-  <link rel="stylesheet" href="/../Public/style.css">
+  <link rel="stylesheet" href="/../../Public/style_course.css">
+  <link rel="stylesheet" href="/../../Public/style.css">
   <!-- Boxiocns CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
@@ -20,67 +20,55 @@
     </div>
     <ul class="nav-links">
       <li>
-        <a href="#">
-          <i class='bx bxs-dashboard'></i>
-          <span class="link_name">Dashboard</span>
+        <a href="/">
+          <i class='bx bx-user'></i>
+          <span class="link_name">Username</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/">Dashboard</a></li>
+          <li><a class="link_name" href="/">Username</a></li>
         </ul>
       </li>
       <li>
         <div class="iocn-link">
-          <a href="/courses">
+          <a href="/adminCourses">
             <i class='bx bx-collection'></i>
             <span class="link_name">Courses</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="/course">Courses</a></li>
+            <li><a class="link_name" href="/adminCourses">Courses</a></li>
           </ul>
         </div>
       </li>
 
       <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/assessments">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/assessments">
           <i class='bx bx-task'></i>
           <span class="link_name">Assesments</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/assessments">Assesments</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/assessments">Assesments</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/materials">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/materials">
           <i class='bx bx-notepad'></i>
           <span class="link_name">Materials</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/materials">Materials</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/materials">Materials</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/grades">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/grades">
           <i class='bx bx-bar-chart'></i>
           <span class="link_name">Grades</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/grades">Grades</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/grades">Grades</a></li>
         </ul>
       </li>
-
-      <% if (role === "student") { %>
-      <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation">
-          <i class='bx bx-calendar'></i>
-          <span class="link_name">Tutor Reservation</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/tutorReservation">Tutor Reservation</a></li>
-        </ul>
-      </li>
-      <% } %>
 
       <li>
         <a href="/logout">
@@ -99,20 +87,6 @@
       <i class='bx bx-menu'></i>
       <%= courseName.courseName %>
     </div>
-    <!-- <section class="home-section"> -->
-    <!-- <section class="middleR"> -->
-    <!-- <section class="title">
-          <div class="titleContainer">
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="./main.html">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="./courses.html">Courses</a></li>
-                <li class="breadcrumb-item"><a href="./course1.html">Course 1</a></li>
-              </ol>
-            </nav>
-          </div>
-        </section> -->
-    <!-- <section class="assesmentMainContainer"> -->
     <h1 style="text-align: center;padding-top: 10px;">Materials</h1>
     <div class="assesmentMainSmallContainer">
       <!-- <div class="assesmentContainer"> -->
