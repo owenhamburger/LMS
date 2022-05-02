@@ -129,6 +129,15 @@ function submitAssessment(req, res) {
   }
 }
 
+//validates that the user is a student or tutor
+function validateUser(req, res, next) {
+  if (req.user.role == "student" || req.user.role == "tutor") {
+    next();
+  } else {
+    res.redirect("back");
+  }
+}
+
 module.exports = {
   createNewUser,
   checkAuthenticated,
@@ -136,4 +145,5 @@ module.exports = {
   viewUserCourses,
   viewTaughtCourses,
   submitAssessment,
+  validateUser,
 };

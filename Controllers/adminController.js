@@ -61,7 +61,16 @@ function viewSubmissions(req, res) {
   });
 }
 
+function validateAdmin(req, res, next) {
+  if (req.user.role == "admin") {
+    next();
+  } else {
+    res.redirect("back");
+  }
+}
+
 module.exports = {
   uploadAssessment,
   viewSubmissions,
+  validateAdmin,
 };
