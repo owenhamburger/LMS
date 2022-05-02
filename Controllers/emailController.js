@@ -62,7 +62,7 @@ function sendUploadEmail(req, res, next) {
 }
 
 //Sends an email on tutor registration to tutor
-function sendTutorEmail(req, res, next) {
+function sendTutorEmail(req, res) {
   console.log("In tutor email controller");
   const tutor = userModel.getUserByID(req.params.selectedTutorID);
   const className = userModel.getCourseByCRN(req.params.CRN);
@@ -80,11 +80,11 @@ function sendTutorEmail(req, res, next) {
     }
     console.log(`Message sent: ${info.response}`);
   });
-  next();
+  // next();
 }
 
 //Sends an email on tutor registration to student
-function sendStudentEmail(req, res, next) {
+function sendStudentEmail(req, res) {
   console.log("In student email controller");
   const tutor = userModel.getUserByID(req.params.selectedTutorID);
   const className = userModel.getCourseByCRN(req.params.CRN);
@@ -103,7 +103,7 @@ function sendStudentEmail(req, res, next) {
     }
     console.log(`Message sent: ${info.response}`);
   });
-  next();
+  // next();
 }
 
 //Sends an email on tutor registration to student
