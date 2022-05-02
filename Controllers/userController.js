@@ -62,13 +62,13 @@ function viewUserCourses(req, res) {
   const userName = user.firstName;
 
   //   req.flash("userCourses", userCourses);
-  if (req.user.role === "student") {
+  if (req.user.role === "student" || req.user.role === "tutor") {
     res.render("courses", { userCourses: userCourses, userName: userName });
-  } else {
-    res.render("tutorDashboard", {
-      userCourses: userCourses,
-      userName: userName,
-    });
+    // } else {
+    //   res.render("tutorDashboard", {
+    //     userCourses: userCourses,
+    //     userName: userName,
+    //   });
   }
 }
 

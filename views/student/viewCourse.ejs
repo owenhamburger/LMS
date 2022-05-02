@@ -35,7 +35,7 @@
             <span class="link_name">Courses</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="/course">Courses</a></li>
+            <li><a class="link_name" href="/courses">Courses</a></li>
           </ul>
         </div>
       </li>
@@ -51,48 +51,48 @@
       </li>
 
       <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/materials">
-          <i class='bx bx-notepad'></i>
-          <span class="link_name">Materials</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/materials">Materials</a></li>
-        </ul>
-      </li>
+        <a href=" /viewCourse/<%= courseName.CRN %>/materials">
+              <i class='bx bx-notepad'></i>
+              <span class="link_name">Materials</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/materials">Materials</a></li>
+            </ul>
+          </li>
 
-      <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/grades">
-          <i class='bx bx-bar-chart'></i>
-          <span class="link_name">Grades</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/grades">Grades</a></li>
-        </ul>
-      </li>
+          <li>
+            <a href="/viewCourse/<%= courseName.CRN %>/grades">
+              <i class='bx bx-bar-chart'></i>
+              <span class="link_name">Grades</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/grades">Grades</a></li>
+            </ul>
+          </li>
 
-      <% if (role === "student") { %>
-      <li>
-        <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation">
-          <i class='bx bx-calendar'></i>
-          <span class="link_name">Tutor Reservation</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/tutorReservation">Tutor Reservation</a></li>
-        </ul>
-      </li>
-      <% } %>
+          <% if (role === "student") { %>
+          <li>
+            <a href="/viewCourse/<%= courseName.CRN %>/tutorReservation">
+              <i class='bx bx-calendar'></i>
+              <span class="link_name">Tutor Reservation</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="/viewCourse/<%= courseName.CRN %>/tutorReservation">Tutor Reservation</a></li>
+            </ul>
+          </li>
+          <% } %>
 
-      <li>
-        <a href="/logout">
-          <i class='bx bx-log-out'></i>
-          <span class="link_name">Log Out</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="/logout">Log Out</a></li>
-        </ul>
-      </li>
+          <li>
+            <a href="/logout">
+              <i class='bx bx-log-out'></i>
+              <span class="link_name">Log Out</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="/logout">Log Out</a></li>
+            </ul>
+          </li>
 
-    </ul>
+        </ul>
   </div>
   <section class="home-section">
     <div class="home-content">

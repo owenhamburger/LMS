@@ -196,6 +196,10 @@ app.get("/", userController.checkAuthenticated, (req, res) => {
     res.render("adminDashboard", {
       profile: adminModel.getAdminInfo(req.user.userID),
     });
+  } else if (req.user.role == "tutor") {
+    res.render("tutorDashboard", {
+      profile: adminModel.getAdminInfo(req.user.userID),
+    });
   } else {
     res.render("dashboard", {
       profile: adminModel.getAdminInfo(req.user.userID),

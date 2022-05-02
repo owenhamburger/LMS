@@ -66,11 +66,7 @@
           <div class="profile-content">
           </div>
           <div class="name-job">
-            <div class="profile_name">
-              Hello <% if (userName) { %>
-              <%= userName %>!
-              <% } %>
-            </div>
+
           </div>
         </div>
       </li>
@@ -82,26 +78,37 @@
     </div>
     <!-- <section class="home-section"> -->
     <!-- <div class="home-content"> -->
-    <h1 style="text-align: center;padding-top: 10px;">Course List</h1>
+    <!-- <h1 style="text-align: center;padding-top: 10px;">Course List</h1> -->
 
-    <div class="courseList">
-      <% if (userCourses) { %>
-      <% userCourses.forEach(course => { %>
-      <div class="card bg-light mb-3" style="max-width: 18rem;">
-        <div class="card-header" style="background-color: #2f7996;"></div>
-        <div class="card-body">
-          <h5 class="card-title"><%= course.courseName %></h5>
-          <p class="card-text">Notifications: 1</p>
-          <a href="/viewCourse/<%= course.CRN%>" class="btn btn-dark" style="color: white; cursor: pointer;">View Course</a>
+    <h1 style="text-align: center; padding-top: 10px;">Welcome!</h1>
+    <section class="dashMainContainer">
+      <div class="mainSmallContainer mainTopL">
+        <div class="card" style="width: 463px; height: 290px">
+          <div class="card-header">
+            Student Profile
+          </div>
+          <% if (profile) { %>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Name: <%= profile.firstName + " " + profile.lastName %> </li>
+            <li class="list-group-item">Username: <%= profile.username %> </li>
+            <li class="list-group-item">Email: <%= profile.email %></li>
+          </ul>
+          <% } %>
+          <div class="viewMore">
+            <div class="viewContainer">
+              <a href="/logout">
+                <button type="button" class="btn btn-primary">Log Out</button>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-      <% })} %>
-    </div>
+    </section>
     <!-- </div> -->
     <!-- </section> -->
   </section>
 
-  <script src="../Public/sidebar.js" defer></script>
+  <script src="/../Public/sidebar.js" defer></script>
 
 </body>
 
