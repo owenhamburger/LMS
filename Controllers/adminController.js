@@ -79,10 +79,17 @@ function updateGrade(req, res) {
   return res.redirect(
     `/adminViewAssesments/${req.body.CRN}/${req.body.assessmentName}/${req.body.assessmentType}`
   );
+function validateAdmin(req, res, next) {
+  if (req.user.role == "admin") {
+    next();
+  } else {
+    res.redirect("back");
+  }
 }
 
 module.exports = {
   uploadAssessment,
   viewSubmissions,
   updateGrade,
+  validateAdmin,
 };

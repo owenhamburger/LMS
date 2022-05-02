@@ -174,6 +174,7 @@ app.get("/", userController.checkAuthenticated, (req, res) => {
 app.get(
   "/adminCourses",
   userController.checkAuthenticated,
+  adminController.validateAdmin,
   userController.viewTaughtCourses
 );
 
@@ -181,23 +182,35 @@ app.get(
 app.get(
   "/courses",
   userController.checkAuthenticated,
+  userController.validateUser,
   userController.viewUserCourses
 );
 
 //Admin - View Course
-app.get("/adminViewCourse", userController.checkAuthenticated, (req, res) => {
-  res.render("adminViewCourse");
-});
+app.get(
+  "/adminViewCourse",
+  userController.checkAuthenticated,
+  adminController.validateAdmin,
+  (req, res) => {
+    res.render("adminViewCourse");
+  }
+);
 
 //Student - View all courses
-app.get("/viewCourse", userController.checkAuthenticated, (req, res) => {
-  res.render("viewCourse");
-});
+app.get(
+  "/viewCourse",
+  userController.checkAuthenticated,
+  userController.validateUser,
+  (req, res) => {
+    res.render("viewCourse");
+  }
+);
 
 //Admin - View course by CRN
 app.get(
   "/adminViewCourse/:CRN",
   userController.checkAuthenticated,
+  adminController.validateAdmin,
   (req, res) => {
     res.render("adminViewCourse", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
@@ -210,6 +223,7 @@ app.get(
 app.get(
   "/adminViewAssesments/:CRN",
   userController.checkAuthenticated,
+  adminController.validateAdmin,
   (req, res) => {
     res.render("adminViewAssesments", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
@@ -219,10 +233,27 @@ app.get(
   }
 );
 
+app.get("/adminMaterials/:CRN", userController.checkAuthenticated, (req, res) => {
+  res.render("adminMaterials", {
+    courseName: userModel.getCourseByCRN(req.params.CRN),
+    CRN: req.params.CRN,
+    role: req.user.role
+  })
+})
+
+app.get("/adminGrades/:CRN", userController.checkAuthenticated, (req, res) => {
+  res.render("adminGrades", {
+    courseName: userModel.getCourseByCRN(req.params.CRN),
+    CRN: req.params.CRN,
+    role: req.user.role
+  })
+})
+
 //Admin - View Student submissions for a particular assessment
 app.get(
   "/adminViewAssesments/:CRN/:assessmentName/:assessmentType",
   userController.checkAuthenticated,
+  adminController.validateAdmin,
   (req, res) => {
     res.render("viewSubmissions", {
       submissions: adminModel.viewSubmissions(
@@ -247,6 +278,7 @@ app.post(
 app.post(
   "/adminViewAssesments/:CRN",
   userController.checkAuthenticated,
+  adminController.validateAdmin,
   assessmentMulter.single("inputFile"),
   adminController.uploadAssessment
 );
@@ -258,7 +290,7 @@ app.get(
   (req, res) => {
     res.sendFile(
       __dirname +
-        `/Files/${req.params.CRN}/assessments/${req.params.type}/${req.params.file}`
+      `/Files/${req.params.CRN}/assessments/${req.params.type}/${req.params.file}`
     );
   }
 );
@@ -276,12 +308,17 @@ app.get(
 );
 
 //Student - View Assesments by CRN
-app.get("/viewCourse/:CRN", userController.checkAuthenticated, (req, res) => {
-  res.render("viewCourse", {
-    courseName: userModel.getCourseByCRN(req.params.CRN),
-    role: req.user.role,
-  });
-});
+app.get(
+  "/viewCourse/:CRN",
+  userController.checkAuthenticated,
+  userController.validateUser,
+  (req, res) => {
+    res.render("viewCourse", {
+      courseName: userModel.getCourseByCRN(req.params.CRN),
+      role: req.user.role,
+    });
+  }
+);
 
 //Student
 app.get("/register", userController.checkNotAuthenticated, (req, res) => {
@@ -324,6 +361,7 @@ app.get("/logout", (req, res) => {
 app.get(
   "/viewCourse/:CRN/assessments",
   userController.checkAuthenticated,
+  userController.validateUser,
   (req, res) => {
     res.render("assessments", {
       currentAssessments: userModel.getSubmittedFile(
@@ -341,6 +379,7 @@ app.get(
 app.post(
   "/viewCourse/:CRN/assessments",
   userController.checkAuthenticated,
+  userController.validateUser,
   submitMulter.single("inputFile"),
   emailController.sendSubmissionConfirmation,
   userController.submitAssessment
@@ -350,6 +389,7 @@ app.post(
 app.get(
   "/viewCourse/:CRN/materials",
   userController.checkAuthenticated,
+  userController.validateUser,
   (req, res) => {
     res.render("materials", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
@@ -362,6 +402,7 @@ app.get(
 app.get(
   "/viewCourse/:CRN/tutorReservation",
   userController.checkAuthenticated,
+  userController.validateUser,
   (req, res) => {
     if (req.user.role === "student") {
       res.render("selectTutor", {
@@ -382,6 +423,7 @@ app.get(
 app.get(
   "/tutor/tutorReservation",
   userController.checkAuthenticated,
+  userController.validateUser,
   (req, res) => {
     res.render("viewReservations", {
       reservations: tutorModel.viewTutorReservations(req.user.userID),
@@ -393,6 +435,7 @@ app.get(
 app.get(
   "/viewCourse/:CRN/tutorReservation/:selectedTutorID",
   userController.checkAuthenticated,
+  userController.validateUser,
   (req, res) => {
     if (req.user.role === "student") {
       res.render("tutorInfo", {
@@ -435,6 +478,7 @@ app.post(
 app.get(
   "/viewCourse/:CRN/tutorReservation/tutorInfo/summary",
   userController.checkAuthenticated,
+  userController.validateUser,
   (req, res) => {
     res.render("summary", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
@@ -447,6 +491,7 @@ app.get(
 app.get(
   "/viewCourse/:CRN/tutorReservation/tutorInfo/summary/course",
   userController.checkAuthenticated,
+  userController.validateUser,
   (req, res) => {
     res.render("course", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
@@ -459,6 +504,7 @@ app.get(
 app.get(
   "/viewCourse/:CRN/grades",
   userController.checkAuthenticated,
+  userController.validateUser,
   (req, res) => {
     res.render("grades", {
       courseName: userModel.getCourseByCRN(req.params.CRN),

@@ -35,6 +35,15 @@ function tutorReservation(req, res, crn, tutorID) {
   }
 }
 
+function validateTutor(req, res, next) {
+  if (req.user.role == "tutor") {
+    next();
+  } else {
+    res.redirect("back");
+  }
+}
+
 module.exports = {
   tutorReservation,
+  validateTutor,
 };

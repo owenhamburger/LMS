@@ -21,11 +21,11 @@
     <ul class="nav-links">
       <li>
         <a href="/">
-          <i class='bx bxs-dashboard'></i>
-          <span class="link_name">Dashboard</span>
+          <i class='bx bx-user'></i>
+          <span class="link_name">Username</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/">Dashboard</a></li>
+          <li><a class="link_name" href="/">Username</a></li>
         </ul>
       </li>
       <li>
@@ -41,29 +41,45 @@
       </li>
 
       <li>
+        <a href="/adminViewCourse/<%= courseName.CRN %>/assessments">
+          <i class='bx bx-task'></i>
+          <span class="link_name">Assesments</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/assessments">Assesments</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/adminViewCourse/<%= courseName.CRN %>/materials">
+          <i class='bx bx-notepad'></i>
+          <span class="link_name">Materials</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/materials">Materials</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/adminViewCourse/<%= courseName.CRN %>/grades">
+          <i class='bx bx-bar-chart'></i>
+          <span class="link_name">Grades</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/grades">Grades</a></li>
+        </ul>
+      </li>
+
+      <li>
         <a href="/logout">
           <i class='bx bx-log-out'></i>
           <span class="link_name">Log Out</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/login">Log Out</a></li>
+          <li><a class="link_name" href="/logout">Log Out</a></li>
         </ul>
       </li>
 
-
-      <li>
-        <div class="profile-details">
-          <div class="profile-content">
-          </div>
-          <div class="name-job">
-            <div class="profile_name">
-              Hello <% if (userName) { %>
-              <%= userName %>!
-              <% } %>
-            </div>
-          </div>
-        </div>
-      </li>
     </ul>
   </div>
   <section class="home-section">

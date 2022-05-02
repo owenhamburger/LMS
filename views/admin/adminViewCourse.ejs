@@ -21,11 +21,11 @@
     <ul class="nav-links">
       <li>
         <a href="/">
-          <i class='bx bxs-dashboard'></i>
-          <span class="link_name">Dashboard</span>
+          <i class='bx bx-user'></i>
+          <span class="link_name">Username</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/">Dashboard</a></li>
+          <li><a class="link_name" href="/">Username</a></li>
         </ul>
       </li>
       <li>
@@ -35,38 +35,38 @@
             <span class="link_name">Courses</span>
           </a>
           <ul class="sub-menu blank">
-            <li><a class="link_name" href="/adminCourses">Courses</a></li>
+            <li><a class="link_name" href="/adminCourse">Courses</a></li>
           </ul>
         </div>
       </li>
 
       <li>
-        <a href="/adminViewAssesments/<%= CRN %>">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/assessments">
           <i class='bx bx-task'></i>
           <span class="link_name">Assesments</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="/adminViewAssesments">Assesments</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/assessments">Assesments</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="#">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/materials">
           <i class='bx bx-notepad'></i>
           <span class="link_name">Materials</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Materials</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/materials">Materials</a></li>
         </ul>
       </li>
 
       <li>
-        <a href="#">
+        <a href="/adminViewCourse/<%= courseName.CRN %>/grades">
           <i class='bx bx-bar-chart'></i>
-          <span class="link_name">Grade Book</span>
+          <span class="link_name">Grades</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Grade Book</a></li>
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/grades">Grades</a></li>
         </ul>
       </li>
 
@@ -76,11 +76,9 @@
           <span class="link_name">Log Out</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Log Out</a></li>
+          <li><a class="link_name" href="/logout">Log Out</a></li>
         </ul>
       </li>
-
-
 
     </ul>
   </div>
