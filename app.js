@@ -225,7 +225,7 @@ app.get(
 
 //Admin - View Assesments by CRN
 app.get(
-  "/adminViewCourse/:CRN/adminViewAssesments",
+  "/adminViewCourse/:CRN/adminViewAssessments",
   userController.checkAuthenticated,
   adminController.validateAdmin,
   (req, res) => {
@@ -288,7 +288,7 @@ app.post(
 
 // Admin file upload
 app.post(
-  "/adminViewAssesments/:CRN",
+  "/adminViewCourse/:CRN/adminViewAssessments",
   userController.checkAuthenticated,
   adminController.validateAdmin,
   assessmentMulter.single("inputFile"),
