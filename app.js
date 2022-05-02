@@ -89,6 +89,35 @@ const assessmentMulter = multer({
   },
 });
 
+// Enable File Upload (admin -- materials)
+const materialMulter = multer({
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      cb(
+        null,
+        `./Files/${req.params.CRN}/assessments/${req.body.assessmentType}`
+      );
+    },
+
+    filename(req, file, cb) {
+      // Generate a random name
+      const randomName = crypto.randomBytes(15).toString("hex");
+
+      // Parse the extension from the file's original name
+      const [extension] = file.originalname.split(".").slice(-1);
+
+      // Now the random name preserves the file extension
+      cb(null, `${randomName}.${extension}`);
+    },
+  }),
+  fileFilter(req, file, cb) {
+    if (!req.session && req.session.role !== "admin") {
+      return cb(null, false); // reject
+    }
+    return cb(null, true);
+  },
+});
+
 // Enable File Upload (student -- submission)
 const submitMulter = multer({
   storage: multer.diskStorage({
