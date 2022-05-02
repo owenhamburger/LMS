@@ -926,5 +926,13 @@ select {
 
 .separation {
   height: 50px;
-  width: 100px;
+  width: 150px;
+}
+
+/*.adminMaterialSeparation {
+  margin: 30%;
+}*/
+
+.formSeparate {
+  margin-left: 30%;
 }
