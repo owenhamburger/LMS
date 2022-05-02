@@ -11,7 +11,9 @@ const adminModel = require("../Models/adminModel");
 function uploadAssessment(req, res) {
   if (!req.file || Object.keys(req.file).length === 0) {
     req.flash("fileUploadFailure", "Please select a file to upload");
-    res.redirect(`/adminViewAssesments/${req.params.CRN}`);
+    return res.redirect(
+      `/adminViewCourse/${req.params.CRN}/adminViewAssessments`
+    );
   } else {
     // Set up data to store in database
     const postedDate = +new Date();
@@ -42,11 +44,15 @@ function uploadAssessment(req, res) {
         "fileUploadFailure",
         "File not uploaded successfully, a file is already uploaded for the selected assignment type and name"
       );
-      return res.redirect(`/adminViewAssesments/${req.params.CRN}`);
+      return res.redirect(
+        `/adminViewCourse/${req.params.CRN}/adminViewAssessments`
+      );
     } else {
       console.log("File uploaded successfully");
       req.flash("fileUploadSuccess", "File uploaded successfully");
-      return res.redirect(`/adminViewAssesments/${req.params.CRN}`);
+      return res.redirect(
+        `/adminViewCourse/${req.params.CRN}/adminViewAssessments`
+      );
     }
   }
 }
@@ -64,7 +70,7 @@ function viewSubmissions(req, res) {
 }
 
 function updateGrade(req, res) {
-  console.log("REQ FROM CLIENT:", req.body);
+  // console.log("REQ FROM CLIENT:", req.body);
   const updatedGrade = adminModel.updateGrade(
     req.body.userID,
     req.body.CRN,
