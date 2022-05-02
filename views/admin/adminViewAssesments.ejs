@@ -61,16 +61,6 @@
       </li>
 
       <li>
-        <a href="/adminViewCourse/<%= courseName.CRN %>/adminGrades">
-          <i class='bx bx-bar-chart'></i>
-          <span class="link_name">Grades</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/adminGrades">Grades</a></li>
-        </ul>
-      </li>
-
-      <li>
         <a href="/logout">
           <i class='bx bx-log-out'></i>
           <span class="link_name">Log Out</span>
@@ -135,34 +125,51 @@
       <form action="/adminViewCourse/<%= CRN %>/adminViewAssessments" method="POST" enctype="multipart/form-data">
 
         <div class="form-group row">
-          <label for="assessmentType" class="col-sm-2 col-form-label">Assessment Type</label>
-          <div class="col-sm-10">
-            <select name="assessmentType" id="assessmentType" class="form-select" required>
-              <option value="Homework">Homework</option>
-              <option value="Quiz">Quiz</option>
-              <option value="Exam">Exam</option>
-            </select>
+          <div class="separation">
+            <label for="assessmentType" class="col-sm-2 col-form-label">Assessment Type</label>
+          </div>
+          <div class="separation2">
+            <div class="col-sm-10">
+              <select name="assessmentType" id="assessmentType" class="form-select" required>
+                <option value="Homework">Homework</option>
+                <option value="Quiz">Quiz</option>
+                <option value="Exam">Exam</option>
+              </select>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="form-group row">
+          <div class="separation">
+            <label for="assignmentName" class="col-sm-2 col-form-label">Assignment Name</label>
+          </div>
+          <div class="separation2">
+            <div class="col-sm-10">
+              <input type="text" name="assessmentName">
+            </div>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="assignmentName" class="col-sm-2 col-form-label">Assignment Name</label>
-          <div class="col-sm-10">
-            <input type="text" name="assessmentName">
+          <div class="separation">
+            <label for="date" class="col-sm-2 col-form-label">Due Date</label>
+          </div>
+          <div class="separation2">
+            <div class="col-sm-10">
+              <input name="dueDate" type="date" id="date" required>
+            </div>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="date" class="col-sm-2 col-form-label">Due Date</label>
-          <div class="col-sm-10">
-            <input name="dueDate" type="date" id="date" required>
+          <div class="separation">
+            <label for="file" class="col-sm-2 col-form-label">File</label>
           </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="file" class="col-sm-2 col-form-label">File</label>
-          <div class="col-sm-10">
-            <input type="file" class="form-control-file" id="file" name="inputFile">
+          <div class="separation2">
+            <div class="col-sm-10">
+              <input type="file" class="form-control-file" id="file" name="inputFile">
+            </div>
           </div>
         </div>
 
