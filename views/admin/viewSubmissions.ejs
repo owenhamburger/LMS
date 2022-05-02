@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <title> LMS</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="../../Public/style_course.css">
-  <link rel="stylesheet" href="../../Public/style.css">
+  <link rel="stylesheet" href="/../../Public/style_course.css">
+  <link rel="stylesheet" href="/../../Public/style.css">
   <!-- Boxiocns CDN Link -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
@@ -93,8 +93,10 @@
       <table class="table table-hover">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">User ID</th>
+            <th scope="col">Student Name</th>
             <th scope="col">Submitted File</th>
+            <th scope="col">Grade</th>
+            <th></th>
             <!-- <th scope="col">Posted Date</th> -->
           </tr>
         </thead>
@@ -102,22 +104,62 @@
           <% if (submissions) { %>
           <% submissions.forEach(submission => { %>
           <tr>
-            <td><%= submission.userID %></td>
-            <td><%= submission.submittedFile %></td>
+            <td id="<%= submission.userID%>" class="studentName"><%= submission.firstName + " " + submission.lastName %></td>
+            <td id="studentFile"><a id="fullFilePath" href="/<%= submission.submittedFile %>"> <%= submission.originalFileName %></td> </a>
+            <% if (submission.grade != null) { %>
+            <td><%= submission.grade %></td>
+
+            <% } else {  %>
+            <td>N/A</td>
+            <% } %>
+
+            <td>
+              <i style="cursor: pointer;" class='a bx bxs-plus-circle' data-toggle="modal" data-target="#exampleModalCenter"></i>
+            </td>
           </tr>
           <% })} %>
         </tbody>
       </table>
+
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Assign/Update Grade</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="updateGradeForm" action="/updateGrade" method="post">
+                <div class="input-box">
+                  <label for="newGrade">New Grade</label>
+                  <input name="grade" type="number" placeholder="Type grade" required min="0" oninput="this.value = 
+                  !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
   </section>
-  <script src="../../Public/sidebar.js" defer></script>
+  <script src="/../../Public/sidebar.js" defer></script>
   <script>
     if (window.history.replaceState) {
       window.history.replaceState(null, null, window.location.href);
     }
   </script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+  <script src="/../../Public/updateGrades.js"></script>
 </body>
 
 </html>

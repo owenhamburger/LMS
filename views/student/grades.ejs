@@ -113,26 +113,46 @@
         </thead>
         <tbody>
           <tr>
-            <td rowspan="2">Quizzes</td>
-            <td>q1</td>
-            <td>90</td>
+            <% if (quizGrades.length > 0) { %>
+            <td rowspan="<%= quizGrades.length %>">Quizzes</td>
+            <% let i = 0; quizGrades.forEach((grade) => { if (i === 0) { %>
+            <td><%= grade.assessmentName %></td>
+            <td><%= grade.grade %></td>
+            <% } else { %>
+          <tr>
+            <td><%= grade.assessmentName %></td>
+            <td><%= grade.grade %></td>
+          </tr>
+          <% } i += 1 }) }%>
           </tr>
 
+          <% if (homeworkGrades.length > 0) { %>
           <tr>
-            <td>q2</td>
-            <td>100</td>
+            <td rowspan="<%= homeworkGrades.length %>">Homeworks</td>
+            <% let j = 0; homeworkGrades.forEach((grade) => { if (j === 0) { %>
+            <td><%= grade.assessmentName %></td>
+            <td><%= grade.grade %></td>
+            <% } else { %>
+          <tr>
+            <td><%= grade.assessmentName %></td>
+            <td><%= grade.grade %></td>
+          </tr>
+          <% } j += 1 }) }%>
           </tr>
 
-          <tr>
-            <td rowspan="1">Homeworks</td>
-            <td>d</td>
-            <td>1</td>
-          </tr>
 
+          <% if (examGrades.length > 0) { %>
           <tr>
-            <td rowspan="1">Exams</td>
-            <td>d</td>
-            <td>1</td>
+            <td rowspan="<%= examGrades.length %>">Exams</td>
+            <% let k = 0; examGrades.forEach((grade) => { if (k === 0) { %>
+            <td><%= grade.assessmentName %></td>
+            <td><%= grade.grade %></td>
+            <% } else { %>
+          <tr>
+            <td><%= grade.assessmentName %></td>
+            <td><%= grade.grade %></td>
+          </tr>
+          <% } k += 1 }) }%>
           </tr>
 
         </tbody>

@@ -2,6 +2,20 @@
 
 const db = require("./db");
 
+function getAdminInfo(userid) {
+  const sql = `
+  SELECT *
+  FROM users
+  WHERE userid = @userid
+  `;
+
+  const profile = db.prepare(sql).get({
+    userid,
+  });
+
+  return profile;
+}
+
 function insertAssessment(
   crn,
   assessmentName,
@@ -44,27 +58,60 @@ function getCourseAssessments(crn) {
   return assessments;
 }
 
-function viewSubmissions(crn, assessmentFile) {
+function viewSubmissions(crn, assessmentName, assessmentType) {
   const sql = `
-  SELECT userID, submittedFile 
-  FROM User_Assessments 
-  WHERE crn = @crn AND assessmentFile = @assessmentFile
+  SELECT User_Assessments.userID, firstName, lastName, submittedFile, originalFileName, assessmentName, assessmentType, grade 
+  FROM User_Assessments
+  JOIN Users on users.userid = User_Assessments.userid
+  WHERE crn = @crn 
+  AND assessmentName = @assessmentName
+  AND assessmentType = @assessmentType
   `;
 
   const submissions = db.prepare(sql).all({
     crn,
-    assessmentFile,
+    assessmentName,
+    assessmentType,
   });
 
-  console.log(crn, assessmentFile);
-
-  console.log("Sub: ", submissions);
+  // console.log(crn, assessmentFile);
 
   return submissions;
 }
 
+function updateGrade(userID, crn, assessmentName, assessmentType, grade) {
+  const sql = `
+  UPDATE user_assessments
+  SET grade = @grade
+  WHERE userID = @userID
+  AND crn = @crn
+  AND assessmentName = @assessmentName
+  AND assessmentType = @assessmentType
+  `;
+
+  const stmt = db.prepare(sql);
+  let updated;
+  try {
+    stmt.run({
+      grade,
+      userID,
+      crn,
+      assessmentName,
+      assessmentType,
+    });
+    updated = true;
+  } catch (err) {
+    updated = false;
+    console.error(err);
+  }
+
+  return updated;
+}
+
 module.exports = {
+  getAdminInfo,
   insertAssessment,
   getCourseAssessments,
   viewSubmissions,
+  updateGrade,
 };

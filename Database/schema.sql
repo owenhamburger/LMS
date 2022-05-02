@@ -49,9 +49,9 @@ CREATE TABLE IF NOT EXISTS User_Assessments (
     postedDate INT,
     assessmentName TEXT,
     assessmentType TEXT,
-    -- assessmentFile TEXT,
     submittedFile TEXT UNIQUE,
     originalFileName TEXT,
+    grade NUMERIC,
 
     PRIMARY KEY(userID, CRN, assessmentName, assessmentType),
     FOREIGN KEY(userID) REFERENCES users(userID),

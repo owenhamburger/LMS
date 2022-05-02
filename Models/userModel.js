@@ -128,7 +128,7 @@ function getUserReservations(userID, crn) {
 
 function getSubmittedFile(userID, crn) {
   const sql = `
-  SELECT ca.CRN, ca.assessmentType, ca.assessmentName, ca.postedDate, ca.dueDate, ca.assessmentFile, User_Assessments.originalFileName
+  SELECT ca.CRN, ca.assessmentType, ca.assessmentName, ca.postedDate, ca.dueDate, ca.assessmentFile, User_Assessments.originalFileName, User_Assessments.submittedFile
   FROM Course_Assessments as ca
   LEFT JOIN User_Assessments ON
   userID = @userID AND
@@ -152,6 +152,8 @@ function getSubmittedFile(userID, crn) {
     crn,
   });
 
+  console.log("SUUUB", submittedFile);
+
   return submittedFile;
 }
 
@@ -166,7 +168,7 @@ function submitAssessment(
 ) {
   const sql = `
   INSERT INTO User_Assessments 
-  VALUES (@userID, @crn, @postedDate, @assessmentName, @assessmentType, @submittedFile, @originalFileName)
+  VALUES (@userID, @crn, @postedDate, @assessmentName, @assessmentType, @submittedFile, @originalFileName, null)
   `;
 
   // console.log("Model", userID, crn, assessmentFile, submittedFile);
@@ -191,6 +193,26 @@ function submitAssessment(
   return inserted;
 }
 
+function getGradesOfType(userID, crn, type) {
+  const sql = `
+  SELECT *
+  FROM User_assessments
+  WHERE userID = @userID
+  AND crn = @crn
+  AND assessmentType = @type
+  `;
+
+  console.log("grades", userID, crn, type);
+
+  const grades = db.prepare(sql).all({
+    userID,
+    crn,
+    type,
+  });
+
+  return grades;
+}
+
 function getStudentsByCRN(crn) {
   const sql = `SELECT users.userid, username, role FROM user_courses join users on users.userid = user_courses.userid where crn = @crn and role = 'student';`;
   const stmt = db.prepare(sql);
@@ -211,5 +233,6 @@ module.exports = {
   getStudentsByCRN,
   getUserReservations,
   getSubmittedFile,
+  getGradesOfType,
   submitAssessment,
 };

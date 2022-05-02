@@ -124,7 +124,7 @@
             <td><%= new Date(assessment.dueDate).toLocaleString().split(',')[0] %></td>
             <!-- <td><%= assessment.dueDate %></td> -->
             <% if (assessment.originalFileName) { %>
-            <td><a href="/public/files/<%= assessment.submittedFile %>"><%= assessment.originalFileName %></a></td>
+            <td><a href="/<%= assessment.submittedFile %>"><%= assessment.originalFileName %></a></td>
             <% } else { %>
             <td>N/A</td>
             <% }})} %>
