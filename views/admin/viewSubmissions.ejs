@@ -40,7 +40,7 @@
         </div>
       </li>
 
-      <li>
+      <!-- <li>
         <a href="/adminViewAssesments/<%= CRN %>">
           <i class='bx bx-task'></i>
           <span class="link_name">Assesments</span>
@@ -48,7 +48,7 @@
         <ul class="sub-menu blank">
           <li><a class="link_name" href="/adminViewAssesments/<%= CRN %>">Assesments</a></li>
         </ul>
-      </li>
+      </li> -->
 
       <li>
         <a href="/adminViewCourse/<%= courseName.CRN %>/adminViewAssessments">
@@ -57,6 +57,16 @@
         </a>
         <ul class="sub-menu blank">
           <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/adminViewAssessments">Assesments</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/adminViewCourse/<%= courseName.CRN %>/adminMaterials">
+          <i class='bx bx-notepad'></i>
+          <span class="link_name">Materials</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="/adminViewCourse/<%= courseName.CRN %>/adminMaterials">Materials</a></li>
         </ul>
       </li>
 
