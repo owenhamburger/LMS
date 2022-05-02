@@ -107,7 +107,7 @@ function sendStudentEmail(req, res, next) {
 }
 
 //Sends an email on tutor registration to student
-function sendSubmissionConfirmation(req, res, next) {
+function sendSubmissionConfirmation(req, res) {
   console.log("In student submission email controller");
   const mailOptions = {
     from: "lmsnoreply77@gmail.com",
@@ -123,7 +123,7 @@ function sendSubmissionConfirmation(req, res, next) {
     }
     console.log(`Message sent: ${info.response}`);
   });
-  next();
+  return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
 }
 
 module.exports = {

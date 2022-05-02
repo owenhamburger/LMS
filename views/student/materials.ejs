@@ -119,14 +119,18 @@
       <table class="table table-hover">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">Material</th>
-            <th scope="col">Description</th>
+            <th scope="col">Material Name</th>
+            <!-- <th scope="col">Material File</th> -->
+            <th scope="col">Posted Date</th>
           </tr>
         </thead>
         <tbody>
+          <% if (materials) { %>
+          <% materials.forEach(material => { %>
           <tr>
-            <td scope="row"><a href="#">Material Name</a></td>
-            <td>this is quiz 1</td>
+            <td><a href="/<%= material.materialFile %>"><%= material.materialName%></a></td>
+            <td><%= new Date(material.postedDate).toLocaleString().split(',')[0] %></td>
+            <% })} %>
           </tr>
         </tbody>
       </table>

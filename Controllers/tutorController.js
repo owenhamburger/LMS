@@ -5,6 +5,8 @@
  *************************************/
 const tutorModel = require("../Models/tutorModel");
 
+const emailController = require("./emailController");
+
 function tutorReservation(req, res, crn, tutorID) {
   const reserved = tutorModel.reserveTutor(
     req.user.userID,
@@ -17,6 +19,8 @@ function tutorReservation(req, res, crn, tutorID) {
   // reservation created successfully
   if (reserved.reserved) {
     req.flash("reservationCreated", "An appointment has been reserved!");
+    emailController.sendTutorEmail(req, res);
+    emailController.sendStudentEmail(req, res);
     return res.status(201).redirect(`/viewCourse/${crn}/tutorReservation`);
   } else {
     if (reserved.err === "SQLITE_CONSTRAINT_UNIQUE") {

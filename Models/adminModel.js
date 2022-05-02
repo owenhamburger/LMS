@@ -49,6 +49,30 @@ function insertAssessment(
   return created;
 }
 
+function insertMaterial(crn, postedDate, materialFile, materialName) {
+  let created;
+  const sql = `
+  INSERT INTO Course_Materials
+  VALUES(@crn, @postedDate, @materialFile, @materialName)
+  `;
+  const stmt = db.prepare(sql);
+
+  try {
+    stmt.run({
+      crn,
+      postedDate,
+      materialFile,
+      materialName,
+    });
+    created = true;
+  } catch (err) {
+    console.error(err);
+    created = false;
+  }
+
+  return created;
+}
+
 function getCourseAssessments(crn) {
   const sql = `SELECT * FROM Course_Assessments WHERE CRN = @crn`;
   const assessments = db.prepare(sql).all({
@@ -56,6 +80,15 @@ function getCourseAssessments(crn) {
   });
 
   return assessments;
+}
+
+function getCourseMaterials(crn) {
+  const sql = `SELECT * FROM Course_Materials WHERE CRN = @crn`;
+  const materials = db.prepare(sql).all({
+    crn,
+  });
+
+  return materials;
 }
 
 function viewSubmissions(crn, assessmentName, assessmentType) {
@@ -111,7 +144,9 @@ function updateGrade(userID, crn, assessmentName, assessmentType, grade) {
 module.exports = {
   getAdminInfo,
   insertAssessment,
+  insertMaterial,
   getCourseAssessments,
+  getCourseMaterials,
   viewSubmissions,
   updateGrade,
 };

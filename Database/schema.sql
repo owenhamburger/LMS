@@ -60,10 +60,11 @@ CREATE TABLE IF NOT EXISTS User_Assessments (
 
 CREATE TABLE IF NOT EXISTS Course_Materials (
     CRN TEXT,
-    filePath TEXT,
-    title TEXT,
+    postedDate INT,
+    materialFile TEXT,
+    materialName TEXT,
 
-    PRIMARY KEY (filePath),
+    PRIMARY KEY (crn, materialFile, materialName),
     FOREIGN KEY(CRN) REFERENCES Courses(CRN)
 );
 

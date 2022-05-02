@@ -57,6 +57,41 @@ function uploadAssessment(req, res) {
   }
 }
 
+function uploadMaterial(req, res) {
+  if (!req.file || Object.keys(req.file).length === 0) {
+    req.flash("fileUploadFailure", "Please select a file to upload");
+    return res.redirect(`/adminViewCourse/${req.params.CRN}/adminMaterials`);
+  } else {
+    // Set up data to store in database
+    const postedDate = +new Date();
+
+    // const materialFile = req.body.materialFile.toLowerCase();
+    const materialName = req.body.materialName.toLowerCase();
+
+    const materialInserted = adminModel.insertMaterial(
+      req.params.CRN,
+      postedDate,
+      req.file.path,
+      materialName
+    );
+    if (!materialInserted) {
+      // delete file from server
+      fs.unlink(req.file.path, (err) => {
+        if (err) throw err;
+      });
+      req.flash(
+        "fileUploadFailure",
+        "File not uploaded successfully, a file is already uploaded for for the chosen material name"
+      );
+      return res.redirect(`/adminViewCourse/${req.params.CRN}/adminMaterials`);
+    } else {
+      console.log("File uploaded successfully");
+      req.flash("fileUploadSuccess", "File uploaded successfully");
+      return res.redirect(`/adminViewCourse/${req.params.CRN}/adminMaterials`);
+    }
+  }
+}
+
 function viewSubmissions(req, res) {
   console.log(req.params);
   res.render("viewSubmissions", {
@@ -96,6 +131,7 @@ function validateAdmin(req, res, next) {
 
 module.exports = {
   uploadAssessment,
+  uploadMaterial,
   viewSubmissions,
   updateGrade,
   validateAdmin,

@@ -83,12 +83,12 @@ function viewTaughtCourses(req, res) {
   res.render("adminCourses", { userCourses: userCourses, userName: userName });
 }
 
-function submitAssessment(req, res) {
+function submitAssessment(req, res, next) {
   if (!req.file || Object.keys(req.file).length === 0) {
     req.flash("fileUploadFailure", "Please select a file to upload");
     return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
   } else {
-    console.log("BODY", req.file.path);
+    // console.log("BODY", req.file.path);
     const postedDate = +new Date();
     const assessmentType = req.body.assessment.split("/")[3].toLowerCase();
     const assessmentName = req.body.assessment.split("/")[5].toLowerCase();
@@ -117,7 +117,8 @@ function submitAssessment(req, res) {
       console.log("File uploaded successfully");
       req.flash("fileUploadSuccess", "File uploaded successfully");
     }
-    return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
+    // return res.redirect(`/viewCourse/${req.params.CRN}/assessments`);
+    next();
 
     // } else {
     //   req.flash(

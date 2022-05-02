@@ -93,14 +93,18 @@
       <table class="table table-hover">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">Material</th>
-            <th scope="col">Description</th>
+            <th scope="col">Material Name</th>
+            <!-- <th scope="col">Material File</th> -->
+            <th scope="col">Posted Date</th>
           </tr>
         </thead>
         <tbody>
+          <% if (materials) { %>
+          <% materials.forEach(material => { %>
           <tr>
-            <td scope="row"><a href="#">Material Name</a></td>
-            <td>this is quiz 1</td>
+            <td><a href="/<%= material.materialFile %>"><%= material.materialName%></a></td>
+            <td><%= new Date(material.postedDate).toLocaleString().split(',')[0] %></td>
+            <% })} %>
           </tr>
         </tbody>
       </table>
@@ -111,9 +115,9 @@
     <form action="/adminViewCourse/<%= CRN %>/adminMaterials" method="POST" enctype="multipart/form-data">
 
       <div class="form-group row">
-        <label for="assignmentName" class="col-sm-2 col-form-label">Material Name</label>
+        <label for="materialName" class="col-sm-2 col-form-label">Material Name</label>
         <div class="col-sm-10">
-          <input type="text" name="assessmentName">
+          <input type="text" name="materialName">
         </div>
       </div>
 

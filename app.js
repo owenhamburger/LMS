@@ -93,10 +93,7 @@ const assessmentMulter = multer({
 const materialMulter = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
-      cb(
-        null,
-        `./Files/${req.params.CRN}/assessments/${req.body.assessmentType}`
-      );
+      cb(null, `./Files/${req.params.CRN}/materials`);
     },
 
     filename(req, file, cb) {
@@ -148,7 +145,10 @@ const submitMulter = multer({
     },
   }),
   fileFilter(req, file, cb) {
-    if (!req.session && req.session.role !== "student") {
+    if (
+      (!req.session && req.session.role !== "student") ||
+      (!req.session && req.session.role !== "tutor")
+    ) {
       return cb(null, false); // reject
     }
     return cb(null, true);
@@ -274,6 +274,7 @@ app.get(
       courseName: userModel.getCourseByCRN(req.params.CRN),
       CRN: req.params.CRN,
       role: req.user.role,
+      materials: adminModel.getCourseMaterials(req.params.CRN),
     });
   }
 );
@@ -315,13 +316,22 @@ app.post(
   adminController.updateGrade
 );
 
-// Admin file upload
+// Admin file upload (assessment)
 app.post(
   "/adminViewCourse/:CRN/adminViewAssessments",
   userController.checkAuthenticated,
   adminController.validateAdmin,
   assessmentMulter.single("inputFile"),
   adminController.uploadAssessment
+);
+
+// Admin file upload (material)
+app.post(
+  "/adminViewCourse/:CRN/adminMaterials",
+  userController.checkAuthenticated,
+  adminController.validateAdmin,
+  materialMulter.single("inputFile"),
+  adminController.uploadMaterial
 );
 
 // make files from "Files" folder accessible (assessments)
@@ -332,6 +342,17 @@ app.get(
     res.sendFile(
       __dirname +
         `/Files/${req.params.CRN}/assessments/${req.params.type}/${req.params.file}`
+    );
+  }
+);
+
+// make files from "Files" folder accessible (materials)
+app.get(
+  "/files/:CRN/materials/:file",
+  userController.checkAuthenticated,
+  (req, res) => {
+    res.sendFile(
+      __dirname + `/Files/${req.params.CRN}/materials/${req.params.file}`
     );
   }
 );
@@ -422,8 +443,8 @@ app.post(
   userController.checkAuthenticated,
   userController.validateUser,
   submitMulter.single("inputFile"),
-  emailController.sendSubmissionConfirmation,
-  userController.submitAssessment
+  userController.submitAssessment,
+  emailController.sendSubmissionConfirmation
 );
 
 // View materials
@@ -435,6 +456,7 @@ app.get(
     res.render("materials", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
       role: req.user.role,
+      materials: adminModel.getCourseMaterials(req.params.CRN),
     });
   }
 );
@@ -498,8 +520,6 @@ app.get(
 app.post(
   "/viewCourse/:CRN/tutorReservation/:selectedTutorID",
   userController.checkAuthenticated,
-  emailController.sendTutorEmail,
-  emailController.sendStudentEmail,
   tutorValidator.validateReservation,
   (req, res) => {
     if (req.user.role === "student") {
