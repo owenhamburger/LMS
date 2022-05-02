@@ -220,6 +220,22 @@ app.get(
   }
 );
 
+app.get("/adminMaterials/:CRN", userController.checkAuthenticated, (req, res) => {
+  res.render("adminMaterials", {
+    courseName: userModel.getCourseByCRN(req.params.CRN),
+    CRN: req.params.CRN,
+    role: req.user.role
+  })
+})
+
+app.get("/adminGrades/:CRN", userController.checkAuthenticated, (req, res) => {
+  res.render("adminGrades", {
+    courseName: userModel.getCourseByCRN(req.params.CRN),
+    CRN: req.params.CRN,
+    role: req.user.role
+  })
+})
+
 //Admin - View Student submissions for a particular assessment
 app.get(
   "/adminViewAssesments/:CRN/:assessment",
@@ -252,7 +268,7 @@ app.get(
   (req, res) => {
     res.sendFile(
       __dirname +
-        `/Files/${req.params.CRN}/assessments/${req.params.type}/${req.params.file}`
+      `/Files/${req.params.CRN}/assessments/${req.params.type}/${req.params.file}`
     );
   }
 );
@@ -334,18 +350,6 @@ app.get(
   userController.checkAuthenticated,
   (req, res) => {
     res.render("materials", {
-      courseName: userModel.getCourseByCRN(req.params.CRN),
-      role: req.user.role,
-    });
-  }
-);
-
-// View chat page
-app.get(
-  "/viewCourse/:CRN/chat",
-  userController.checkAuthenticated,
-  (req, res) => {
-    res.render("chat", {
       courseName: userModel.getCourseByCRN(req.params.CRN),
       role: req.user.role,
     });
